@@ -18,6 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- activity 의 존재를 컴파일러에게 알려주는 역할 -->
+        <activity android:name=".ResultActivity"/>
     </application>
 
 </manifest>

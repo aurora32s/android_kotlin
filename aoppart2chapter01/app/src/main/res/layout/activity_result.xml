@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <!-- BMI 결과 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BMI :"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/custom_black"/>
+
+        <!-- tools : Design 에서만 보이는 widget 속성 -->
+        <!-- 거의 모든 안드로이드 속성은 tools 로 사용할 수 있다. -->
+        <TextView
+            android:id="@+id/txt_bmi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="23.111111"
+            android:textSize="17sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="결과 :"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/custom_black"/>
+
+        <TextView
+            android:id="@+id/txt_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="과제충입니다."
+            android:textSize="17sp"/>
+    </LinearLayout>
+</LinearLayout>

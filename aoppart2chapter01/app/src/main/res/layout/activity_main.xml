@@ -1,34 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- reformat code : option + command + L -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="16dp"
     android:orientation="vertical">
+    <!-- dp : 해상도가 다른 화면 비율에 맞게 계산되어 나오는 단위 -->
 
     <!-- match_parent : 상위 component 에 맞춤 -->
     <!-- 신장 -->
     <TextView
-        android:text="@string/hint_height"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"/>
+        android:text="@string/hint_height"
+        android:textColor="@color/custom_black"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+    <!-- sp : 기기 설정에서 설정한 화면 크기에 맞게 변경되어 나옴 -->
+
+    <EditText
+        android:id="@+id/edit_height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number" />
 
     <!-- 몸무게 -->
     <TextView
-        android:text="@string/hint_weight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"/>
+        android:layout_marginTop="10dp"
+        android:text="@string/hint_weight"
+        android:textColor="@color/custom_black"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edit_weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number" />
 
     <Button
-        android:text="확인하기"
+        android:id="@+id/btn_confirm"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="확인하기" />
 
 </LinearLayout>
