@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">aop-part2-chapter02</string>
+
+    <!--Main Activity-->
+    <string name="btn_add">번호 추가하기</string>
+    <string name="btn_reset">초기화</string>
+    <string name="btn_run">자동생성시작</string>
 </resources>
