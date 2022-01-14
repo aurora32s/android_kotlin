@@ -4,15 +4,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFF8E2"
     tools:context=".MainActivity">
 
+    <!-- custom font 사용 시 : fontFamily 사용 -->
+    <!-- resource 파일의 이름은 반드시 소문자로 구성되어 있어야 한다. -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginBottom="50dp"
+        android:fontFamily="@font/bmjua_ttf"
+        android:text="@string/main_msg"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/layout_pwd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <!--Background 설정을 위한 가상의 view -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_pwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#EFEFEF"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_confirm"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="10dp"
+            android:background="#B8B8B8"
+            app:layout_constraintBottom_toBottomOf="@id/number_picker_first"
+            app:layout_constraintEnd_toStartOf="@id/number_picker_first"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/number_picker_first" />
+
+        <!-- 버튼의 색이 변경되지 않은 이유는 Theme 에서의 설정을 하지 않았기 때문이다. -->
+        <!-- MaterialComponent : 기본 Component 들의 기본 색상을 Primary 로 설정한다. -->
+        <!-- AppCompatButton 은 MaterialComponent 의 영향을 받지 않는다. -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_change_pwd"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/black"
+            app:layout_constraintEnd_toEndOf="@id/btn_confirm"
+            app:layout_constraintStart_toStartOf="@id/btn_confirm"
+            app:layout_constraintTop_toBottomOf="@id/btn_confirm" />
+
+        <NumberPicker
+            android:id="@+id/number_picker_first"
+            android:layout_width="30dp"
+            android:layout_height="120dp"
+            android:background="#E8E8E8"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/number_picker_second"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/btn_confirm"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <NumberPicker
+            android:id="@+id/number_picker_second"
+            android:layout_width="30dp"
+            android:layout_height="120dp"
+            android:background="#E8E8E8"
+            app:layout_constraintEnd_toStartOf="@id/number_picker_third"
+            app:layout_constraintStart_toEndOf="@id/number_picker_first"
+            app:layout_constraintTop_toTopOf="@id/number_picker_first" />
+
+        <NumberPicker
+            android:id="@+id/number_picker_third"
+            android:layout_width="30dp"
+            android:layout_height="120dp"
+            android:background="#E8E8E8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/number_picker_second"
+            app:layout_constraintTop_toTopOf="@id/number_picker_first" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
