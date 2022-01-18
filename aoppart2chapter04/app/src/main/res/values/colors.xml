@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- MainActivity -->
+    <color name="gray">#f2f2f2</color>
+    <color name="button_press_gray">#e2e2e2</color>
+    <color name="background_white">#fcfcfc</color>
+    <color name="txt">#555555</color>
+    <color name="green">#7aaf3b</color>
+    <color name="button_press_green">#618c2f</color>
+
 </resources>
