@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Aoppart2chapter06" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Aoppart2chapter06" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -10,7 +10,12 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- targetApi="l" -> lollipop -->
+        <item name="android:statusBarColor">@color/pomodoro_red</item>
         <!-- Customize your theme here. -->
+        <!-- 최상위 레이아웃도 결국 window 위에 그려지는 것이기 때문에 최상위 레이아웃의 배경색을 변경해도 결국
+            window 화면( default : 흰색 )이 먼저 보이고 최상위 레이아웃의 배경색이 보이게 된다.
+            앱 첫 진입 시부터 배경색을 변경하고 싶다면, 테마에서 windowBackground 를 변경하자 -->
+        <item name="android:windowBackground">@color/pomodoro_red</item>
     </style>
 </resources>
