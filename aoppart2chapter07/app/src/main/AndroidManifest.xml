@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.haman.aop_part2_chapter07">
 
+    <!-- RECORD_AUDIO 는 dangerous permission 이므로 사용자로부터 허가를 받을 필요가 있다. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
