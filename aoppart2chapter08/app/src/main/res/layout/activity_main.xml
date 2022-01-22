@@ -6,13 +6,102 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:elevation="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- ImageButton 에 설정된 디폴트 background 에 설정되어 있는 가로 길이가 있는데,
+            이를 selectableItemBackground 로 덮어써서, 가로의 길이가 줄어든다. -->
+        <ImageButton
+            android:id="@+id/btn_home"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/ic_home"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <!-- 자동 완성 : 이메일, 패스완성 등의 사용 -->
+        <!-- Specifying the input method action(imeOptions) : 오른쪽 하단 버튼 액션 정의 -->
+        <!-- imeOptions : 키보드 탭 닫기 -->
+        <EditText
+            android:id="@+id/edit_address"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="8dp"
+            android:background="@drawable/rounded_edittext"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="textUri"
+            android:paddingHorizontal="16dp"
+            android:selectAllOnFocus="true"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_back"
+            app:layout_constraintStart_toEndOf="@id/btn_home"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="LabelFor" />
+        <!-- selectAllOnFocus : Focus 가 맞춰졌을 때 텍스트 전체 선택 -->
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/btn_forward"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/btn_forward"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/ic_forward"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefreshlayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progress_bar">
+
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- 로딩 프로그래스 바 중, 최소한의 시간은 화면에 남아있도록 정의할 수 있는 프로그래스 바 -->
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        app:layout_constraintBottom_toTopOf="@id/swiperefreshlayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
