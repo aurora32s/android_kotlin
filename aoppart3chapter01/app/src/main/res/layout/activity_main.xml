@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="결과"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:ignore="HardCodedText" />
+
+    <TextView
+        android:id="@+id/txt_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="11dp"
+        android:textSize="16sp"
+        tools:text="hello world" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Firebase Token"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:ignore="HardCodedText" />
+
+    <TextView
+        android:id="@+id/txt_token"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="11dp"
+        android:text="Loading....."
+        android:textIsSelectable="true"
+        android:textSize="16sp"
+        tools:ignore="HardCodedText"/>
+    <!--
+        marginStart 와 marginLeft 의 차이
+        - left/right 는 진짜 화면의 방향
+        - start/end 는 어플리케이션의 지정된 화면 출력 방향
+            ex. 아랍어 등은 화면의 오른쪽부터 출력되므로, 오른쪽이 start 방향
+            (RTL 언어)
+    -->
+
+</LinearLayout>
