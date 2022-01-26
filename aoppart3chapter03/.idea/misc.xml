@@ -3,8 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/background_white_ring.xml" value="0.115" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.24947916666666667" />
-        <entry key="app/src/main/res/layout/item_quote.xml" value="0.24947916666666667" />
       </map>
     </option>
   </component>

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">aop-part3-chapter03</string>
+    <string name="change_time">시간 재설정</string>
+    <string name="off_alarm">알람 끄기</string>
+</resources>
