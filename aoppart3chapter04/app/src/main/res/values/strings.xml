@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">aop-part3-chapter04</string>
+    <string name="txt_save">저장하기</string>
 </resources>
