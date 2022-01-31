@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">aop-part3-chapter05</string>
+    <string name="txt_login_button">로그인</string>
+    <string name="txt_signup_button">회원가입</string>
+
+    <string name="facebook_app_id">4795057700585731</string>
+    <string name="fb_login_protocol_scheme">fb4795057700585731</string>
+
 </resources>
