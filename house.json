@@ -1,0 +1,28 @@
+{
+    "items" : [
+        {
+            "id" : 1,
+            "title" : "강남역!! 최저가!! 레지던스!!",
+            "price" : "23,000원",
+            "lat" : 37.49753226341216, 
+            "lng" : 127.03072878398825,
+            "imgUrl" : "https://i.picsum.photos/id/515/200/200.jpg?hmac=d6WMJkHOOB7pT-6y_yjHKrJdVp3v17ry6bMzGVuyb68"
+        },
+        {
+            "id" : 2,
+            "title" : "테스트 2",
+            "price" : "12,000원",
+            "lat" : 37.49733465983113, 
+            "lng" : 127.0269068084228,
+            "imgUrl" : "https://i.picsum.photos/id/502/200/200.jpg?hmac=c6mcZ5mcmjadIeDKaJClpvPz9R9-X9q6c0Un-n73Kv4"
+        },
+        {
+            "id" : 3,
+            "title" : "테스트3",
+            "price" : "45,600원",
+            "lat" : 37.4988765311273,  
+            "lng" : 127.02665966616152,
+            "imgUrl" : "https://i.picsum.photos/id/464/200/200.jpg?hmac=rT0rkzkukXVK3LYD1qHhc-Yqk0dFyIYoFk8wuNpCkAY"
+        }
+    ]
+}
