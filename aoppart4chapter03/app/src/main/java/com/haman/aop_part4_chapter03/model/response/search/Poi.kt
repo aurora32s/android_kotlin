@@ -1,0 +1,31 @@
+package com.haman.aop_part4_chapter03.model.response.search
+
+data class Poi(
+    val id: String,
+    val name: String,
+    val telNo: String,
+    val frontLat: Float,
+    val fontLon: Float,
+    val noorLat: Float,
+    val noorLon: Float,
+    val upperAddressName: String,
+    val middleAddressName: String,
+    val lowerAddressName: String,
+    val detailAddress: String,
+    val firstNo: String,
+    val secondNo: String,
+    val roadName: String,
+    val firstBuildNo: String,
+    val secondBuildNo: String,
+    val mlClass: String,
+    val radius: String,
+    val bizName: String,
+    val upperBizName: String,
+    val middleBizName: String,
+    val lowerBizName: String,
+    val detailBizName: String,
+    val rpFlag: String,
+    val parkFlag: String,
+    val detailInfoFlag: String,
+    val desc: String
+)
