@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_main"
+    app:startDestination="@id/stations_dest">
+
+    <!-- name: mapping 시킬 fragment object -->
+    <fragment
+        android:id="@+id/stations_dest"
+        android:name="com.haman.aop_part5_chapter05.presentation.stations.StationsFragment">
+
+        <action
+            android:id="@+id/to_station_arrivals_action"
+            app:destination="@id/station_arrivals_dest" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/station_arrivals_dest"
+        android:name="com.haman.aop_part5_chapter05.presentation.stationarrivals.StationsArrivalsFragment">
+
+    </fragment>
+</navigation>

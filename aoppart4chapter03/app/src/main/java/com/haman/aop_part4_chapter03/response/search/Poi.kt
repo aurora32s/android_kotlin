@@ -1,19 +1,19 @@
-package com.haman.aop_part4_chapter03.model.response.search
+package com.haman.aop_part4_chapter03.response.search
 
 data class Poi(
     val id: String,
-    val name: String,
+    val name: String?,
     val telNo: String,
     val frontLat: Float,
     val fontLon: Float,
     val noorLat: Float,
     val noorLon: Float,
-    val upperAddressName: String,
-    val middleAddressName: String,
-    val lowerAddressName: String,
-    val detailAddress: String,
-    val firstNo: String,
-    val secondNo: String,
+    val upperAddrName: String?,
+    val middleAddrName: String?,
+    val lowerAddrName: String?,
+    val detailAddrName: String?,
+    val firstNo: String?,
+    val secondNo: String?,
     val roadName: String,
     val firstBuildNo: String,
     val secondBuildNo: String,
