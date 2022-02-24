@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">aop-part5-chapter01</string>
+    <string name="empty_history_text">등록된 리스트가 없습니다.</string>
+    <string name="title">제목</string>
+    <string name="description">내용을 입력해주세요.</string>
+    <string name="delete">삭제</string>
+    <string name="modify">수정</string>
+    <string name="update">저장</string>
 </resources>
