@@ -11,4 +11,5 @@
     <color name="main">#4B00B6</color>
     <color name="gray_cc">#cccccc</color>
     <color name="gray_ec">#ececec</color>
+    <color name="black_24">#24000000</color>
 </resources>

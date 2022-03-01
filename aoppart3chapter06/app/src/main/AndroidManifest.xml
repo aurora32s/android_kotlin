@@ -2,10 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.haman.aop_part3_chapter06">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".AopPart5Chapter04Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,8 +25,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".home.AddArticleActivity"/>
-        <activity android:name=".chatdetail.ChatRoomActivity"/>
+        <activity android:name=".home.AddArticleActivity" />
+        <activity android:name=".chatdetail.ChatRoomActivity" />
+        <activity android:name=".photo.CameraActivity" />
+        <activity
+            android:name=".photo.ImagePreviewListActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
+            android:name=".gallery.GalleryActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

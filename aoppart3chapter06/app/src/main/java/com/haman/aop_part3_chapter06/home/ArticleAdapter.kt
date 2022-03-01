@@ -26,11 +26,11 @@ class ArticleAdapter (
 
             binding.titleTextView.text = articleModel.title
             binding.dateTextView.text = format.format(date).toString()
-            binding.priceTextView.text = articleModel.price
+            binding.priceTextView.text = articleModel.content
 
-            if (articleModel.imageUrl.isNotBlank()) {
+            if (articleModel.imageUrlList.isNotEmpty()) {
                 Glide.with(binding.thumbnailImageView)
-                    .load(articleModel.imageUrl)
+                    .load(articleModel.imageUrlList.first())
                     .into(binding.thumbnailImageView)
             }
 

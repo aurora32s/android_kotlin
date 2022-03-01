@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="아이템 등록"
+            android:text="@string/regist_feed_text"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -33,18 +33,18 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="16dp"
-        android:hint="글 제목"
+        android:hint="@string/feed_title_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
 
     <EditText
-        android:id="@+id/priceEditText"
+        android:id="@+id/contentEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-        android:hint="가격"
-        android:inputType="number"
+        android:hint="@string/feed_contents_hint"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleEditText" />
@@ -55,18 +55,32 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/main"
         android:text="이미지 등록하기"
-        app:layout_constraintEnd_toEndOf="@id/photoImageView"
-        app:layout_constraintStart_toStartOf="@id/photoImageView"
-        app:layout_constraintTop_toBottomOf="@id/photoImageView" />
+        app:layout_constraintBottom_toTopOf="@id/submitButton"
+        app:layout_constraintEnd_toEndOf="@id/submitButton"
+        app:layout_constraintStart_toStartOf="@id/submitButton" />
 
-    <ImageView
-        android:id="@+id/photoImageView"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <!--    <ImageView-->
+    <!--        android:id="@+id/photoImageView"-->
+    <!--        android:layout_width="250dp"-->
+    <!--        android:layout_height="250dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="8dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/imageAddButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/contentEditText"
+        app:spanCount="2"
+        tools:itemCount="10" />
 
     <Button
         android:id="@+id/submitButton"
