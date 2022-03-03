@@ -8,15 +8,12 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
 class SubwayApplication: Application() {
-
-    // koin 초기화
     override fun onCreate() {
         super.onCreate()
-        // DSL?
         startKoin {
-            androidLogger( // fun
+            androidLogger(
                 if (BuildConfig.DEBUG) {
-                    Level.DEBUG
+                    Level.ERROR
                 } else {
                     Level.NONE
                 }

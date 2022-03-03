@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_main"
     app:startDestination="@id/stations_dest">
 
-    <!-- name: mapping 시킬 fragment object -->
+    <!-- convention: [fragment_name]_dest -->
     <fragment
         android:id="@+id/stations_dest"
-        android:name="com.haman.aop_part5_chapter05.presentation.stations.StationsFragment">
-
+        android:name="com.haman.aop_part5_chapter05.presentation.stations.StationsFragment"
+        tools:layout="@layout/fragment_stations">
+        <!-- 화면간의 이동 정의 -->
         <action
-            android:id="@+id/to_station_arrivals_action"
+            android:id="@+id/to_station_arrivals_dest"
             app:destination="@id/station_arrivals_dest" />
-
+        <!-- 어떤 데이터를 전달할 것인가 -->
     </fragment>
 
     <fragment
         android:id="@+id/station_arrivals_dest"
-        android:name="com.haman.aop_part5_chapter05.presentation.stationarrivals.StationsArrivalsFragment">
+        android:name="com.haman.aop_part5_chapter05.presentation.stationArrivals.StationsArrivalsFragment"
+        tools:layout="@layout/fragment_station_arrivals">
+
+        <!-- parcelable 해야 한다. -->
+        <argument
+            android:name="station"
+            app:argType="com.haman.aop_part5_chapter05.domain.Station"/>
 
     </fragment>
+
 </navigation>

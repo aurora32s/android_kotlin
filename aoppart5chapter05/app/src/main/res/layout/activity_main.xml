@@ -5,20 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".presentation.MainActivity">
+    tools:context=".MainActivity">
 
-    <Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
-        android:elevation="4dp"/>
+        android:elevation="4dp" />
 
+    <!-- name 필수 -->
+    <!-- defaultNavHost: back button 동작이 Navigation 과 연동 -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mainNavigationHostContainer"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/navigation_main" />
+        app:navGraph="@navigation/navigation_main"
+        app:defaultNavHost="true" />
+
 </LinearLayout>
