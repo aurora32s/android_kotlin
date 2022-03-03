@@ -9,6 +9,9 @@ import com.haman.aop_part5_chapter06.data.db.AppDatabase
 import com.haman.aop_part5_chapter06.data.preference.PreferenceManager
 import com.haman.aop_part5_chapter06.data.preference.SharedPreferenceManager
 import com.haman.aop_part5_chapter06.data.repository.*
+import com.haman.aop_part5_chapter06.presentation.addtrackingitem.AddTrackingItemFragment
+import com.haman.aop_part5_chapter06.presentation.addtrackingitem.AddTrackingItemPresenter
+import com.haman.aop_part5_chapter06.presentation.addtrackingitem.AddTrackingItemsContract
 import com.haman.aop_part5_chapter06.presentation.trackingitems.TrackingItemsContract
 import com.haman.aop_part5_chapter06.presentation.trackingitems.TrackingItemsFragment
 import com.haman.aop_part5_chapter06.presentation.trackingitems.TrackingItemsPresenter
@@ -31,6 +34,7 @@ val appModule = module {
     // Database, Dao
     single { AppDatabase.build(androidApplication()) }
     single { get<AppDatabase>().trackingItemDao() }
+    single { get<AppDatabase>().shippingCompanyDao() }
 
     // Api
     single { // okhttp3 client
@@ -74,6 +78,11 @@ val appModule = module {
     scope<TrackingItemsFragment> {
         scoped<TrackingItemsContract.Presenter> {
             TrackingItemsPresenter(getSource(), get())
+        }
+    }
+    scope<AddTrackingItemFragment> {
+        scoped<AddTrackingItemsContract.Presenter> {
+            AddTrackingItemPresenter(getSource(),get(),get())
         }
     }
 }
