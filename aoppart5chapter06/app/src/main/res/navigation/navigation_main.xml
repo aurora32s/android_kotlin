@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_main"
-    app:startDestination="@id/add_tracking_item_dest">
+    app:startDestination="@id/tracking_items_dest">
 
     <fragment
         android:id="@+id/tracking_items_dest"
@@ -28,6 +28,12 @@
         android:name="com.haman.aop_part5_chapter06.presentation.trackinghistory.TrackingHistoryFragment"
         android:label="배송 상세"
         tools:layout="@layout/fragment_tracking_history">
+        <argument
+            android:name="item"
+            app:argType="com.haman.aop_part5_chapter06.data.entity.TrackingItem" />
+        <argument
+            android:name="information"
+            app:argType="com.haman.aop_part5_chapter06.data.entity.TrackingInformation" />
     </fragment>
 
 </navigation>

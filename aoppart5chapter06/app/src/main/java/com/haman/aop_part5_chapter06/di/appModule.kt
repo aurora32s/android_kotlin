@@ -6,6 +6,10 @@ import com.haman.aop_part5_chapter06.data.api.Url
 import com.haman.aop_part5_chapter06.data.db.AppDatabase
 import com.haman.aop_part5_chapter06.data.repository.TrackingItemRepository
 import com.haman.aop_part5_chapter06.data.repository.TrackingItemRepositoryImpl
+import com.haman.aop_part5_chapter06.data.repository.TrackingItemRepositoryStub
+import com.haman.aop_part5_chapter06.presentation.trackingitems.TrackingItemsContract
+import com.haman.aop_part5_chapter06.presentation.trackingitems.TrackingItemsFragment
+import com.haman.aop_part5_chapter06.presentation.trackingitems.TrackingItemsPresenter
 import kotlinx.coroutines.Dispatchers
 import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
@@ -49,8 +53,16 @@ val appModule = module {
     }
 
     // Repository
-    single<TrackingItemRepository> {
-        // api, dao, dispatcher
-        TrackingItemRepositoryImpl(get(),get(),get())
+//    single<TrackingItemRepository> {
+//        // api, dao, dispatcher
+//        TrackingItemRepositoryImpl(get(),get(),get())
+//    }
+    single<TrackingItemRepository> { TrackingItemRepositoryStub() }
+
+    // Presentation
+    scope<TrackingItemsFragment> {
+        scoped<TrackingItemsContract.Presenter> {
+            TrackingItemsPresenter(getSource(), get())
+        }
     }
 }
