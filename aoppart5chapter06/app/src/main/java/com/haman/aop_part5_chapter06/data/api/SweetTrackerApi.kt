@@ -10,12 +10,18 @@ import retrofit2.http.Query
 
 interface SweetTrackerApi {
 
+    /**
+     * 택배사 코드, 송장 번호 기반의 정보
+     */
     @GET("api/v1/trackingInfo?t_key=${BuildConfig.SWEET_TRACKER_API_KEY}")
     suspend fun getTrackingInformation(
         @Query("t_code") companyCode: String, // 택배사 코드
         @Query("t_invoice") invoice: String // 송장 번호
     ): Response<TrackingInformation>
 
+    /**
+     * 회사 목록(일주일 마다 회사 정보 update)
+     */
     @GET("api/v1/companylist?t_key=${BuildConfig.SWEET_TRACKER_API_KEY}")
     suspend fun getShippingCompanies(): Response<ShippingCompanies>
 

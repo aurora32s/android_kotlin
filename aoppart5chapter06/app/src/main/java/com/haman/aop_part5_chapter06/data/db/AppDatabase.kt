@@ -4,11 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.haman.aop_part5_chapter06.data.entity.ShippingCompany
 import com.haman.aop_part5_chapter06.data.entity.TrackingItem
 
 @Database(
-    entities = [TrackingItem::class],
-    version = 1,
+    entities = [TrackingItem::class, ShippingCompany::class],
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
