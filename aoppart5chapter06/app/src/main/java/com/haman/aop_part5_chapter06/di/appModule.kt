@@ -6,15 +6,21 @@ import com.haman.aop_part5_chapter06.BuildConfig
 import com.haman.aop_part5_chapter06.data.api.SweetTrackerApi
 import com.haman.aop_part5_chapter06.data.api.Url
 import com.haman.aop_part5_chapter06.data.db.AppDatabase
+import com.haman.aop_part5_chapter06.data.entity.TrackingInformation
+import com.haman.aop_part5_chapter06.data.entity.TrackingItem
 import com.haman.aop_part5_chapter06.data.preference.PreferenceManager
 import com.haman.aop_part5_chapter06.data.preference.SharedPreferenceManager
 import com.haman.aop_part5_chapter06.data.repository.*
 import com.haman.aop_part5_chapter06.presentation.addtrackingitem.AddTrackingItemFragment
 import com.haman.aop_part5_chapter06.presentation.addtrackingitem.AddTrackingItemPresenter
 import com.haman.aop_part5_chapter06.presentation.addtrackingitem.AddTrackingItemsContract
+import com.haman.aop_part5_chapter06.presentation.trackinghistory.TrackingHistoryContract
+import com.haman.aop_part5_chapter06.presentation.trackinghistory.TrackingHistoryFragment
+import com.haman.aop_part5_chapter06.presentation.trackinghistory.TrackingHistoryPresenter
 import com.haman.aop_part5_chapter06.presentation.trackingitems.TrackingItemsContract
 import com.haman.aop_part5_chapter06.presentation.trackingitems.TrackingItemsFragment
 import com.haman.aop_part5_chapter06.presentation.trackingitems.TrackingItemsPresenter
+import com.haman.aop_part5_chapter06.work.AppWorkerFactory
 import kotlinx.coroutines.Dispatchers
 import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
@@ -74,6 +80,9 @@ val appModule = module {
         ShippingCompanyRepositoryImpl(get(),get(),get(),get())
     }
 
+    // Work
+    single { AppWorkerFactory(get(), get()) }
+
     // Presentation
     scope<TrackingItemsFragment> {
         scoped<TrackingItemsContract.Presenter> {
@@ -83,6 +92,11 @@ val appModule = module {
     scope<AddTrackingItemFragment> {
         scoped<AddTrackingItemsContract.Presenter> {
             AddTrackingItemPresenter(getSource(),get(),get())
+        }
+    }
+    scope<TrackingHistoryFragment> {
+        scoped<TrackingHistoryContract.Presenter> { (item: TrackingItem, information: TrackingInformation) ->
+            TrackingHistoryPresenter(getSource(), get(), item, information)
         }
     }
 }

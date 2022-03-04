@@ -70,7 +70,15 @@ class AddTrackingItemPresenter(
         }
     }
 
-    override fun fetchRecommendShippingCompany() {}
+    override fun fetchRecommendShippingCompany() {
+        scope.launch {
+            view.showRecommendCompanyLoadingIndicator()
+            shippingCompanyRepository.getRecommendShippingCompany(invoice!!)?.let {
+                view.showRecommendCompany(it)
+            }
+            view.hideRecommendCompanyLoadingIndicator()
+        }
+    }
 
     private fun enableSaveButtonIfAvailable() {
         // 송장번호도 입력하고 택배회사도 선택한 경우

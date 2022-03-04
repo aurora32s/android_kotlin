@@ -3,8 +3,6 @@ package com.haman.aop_part5_chapter06.presentation.trackingitems
 import com.haman.aop_part5_chapter06.data.entity.TrackingInformation
 import com.haman.aop_part5_chapter06.data.entity.TrackingItem
 import com.haman.aop_part5_chapter06.data.repository.TrackingItemRepository
-import com.haman.aop_part5_chapter06.presentation.BasePresenter
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -40,7 +38,7 @@ class TrackingItemsPresenter(
             view.showLoadingIndicator()
 
             if (trackingItemInformation.isEmpty() || forceFetch) {
-                trackingItemInformation = trackingItemRepository.getTrackingItemInformation()
+                trackingItemInformation = trackingItemRepository.getTrackingItemInformations()
             }
             if (trackingItemInformation.isEmpty()) {
                 view.showNoDataDescription()

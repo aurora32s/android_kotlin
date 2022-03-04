@@ -1,12 +1,17 @@
 package com.haman.aop_part5_chapter06.presentation.addtrackingitem
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.ClipDescription
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.view.children
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
@@ -16,7 +21,7 @@ import com.haman.aop_part5_chapter06.extension.toGone
 import com.haman.aop_part5_chapter06.extension.toVisible
 import org.koin.android.scope.ScopeFragment
 
-class AddTrackingItemFragment: ScopeFragment(), AddTrackingItemsContract.View {
+class AddTrackingItemFragment : ScopeFragment(), AddTrackingItemsContract.View {
 
     override val presenter: AddTrackingItemsContract.Presenter by inject()
     private var binding: FragmentAddTrackingItemBinding? = null
@@ -33,6 +38,8 @@ class AddTrackingItemFragment: ScopeFragment(), AddTrackingItemsContract.View {
         super.onViewCreated(view, savedInstanceState)
         bindViews()
         presenter.onViewCreated()
+
+        changeInvoiceIfAvailable()
     }
 
     override fun onDestroyView() {
@@ -50,6 +57,7 @@ class AddTrackingItemFragment: ScopeFragment(), AddTrackingItemsContract.View {
     override fun showShippingCompaniesLoadingIndicator() {
         binding?.shippingCompanyProgressBar?.toVisible()
     }
+
     override fun hideShippingCompaniesLoadingIndicator() {
         binding?.shippingCompanyProgressBar?.toGone()
     }
@@ -62,6 +70,7 @@ class AddTrackingItemFragment: ScopeFragment(), AddTrackingItemsContract.View {
         }
         binding?.saveProgressBar?.toVisible()
     }
+
     override fun hideSaveTrackingItemIndicator() {
         binding?.saveButton?.apply {
             text = "저장하기"
@@ -85,28 +94,39 @@ class AddTrackingItemFragment: ScopeFragment(), AddTrackingItemsContract.View {
     override fun enableSaveButton() {
         binding?.saveButton?.isEnabled = true
     }
+
     override fun disableSaveButton() {
         binding?.saveButton?.isEnabled = false
     }
+
     // 에러 발생
     override fun showErrorToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
+
     // 저장 성공 시, 화면 전환
     override fun finish() {
         findNavController().popBackStack()
     }
 
+    // 추천 택배사 검우
     override fun showRecommendCompanyLoadingIndicator() {
-        TODO("Not yet implemented")
+        binding?.shippingCompanyProgressBar?.toVisible()
     }
-
     override fun hideRecommendCompanyLoadingIndicator() {
-        TODO("Not yet implemented")
+        binding?.shippingCompanyProgressBar?.toGone()
     }
 
     override fun showRecommendCompany(company: ShippingCompany) {
-        TODO("Not yet implemented")
+        binding?.chipGroup
+            ?.children
+            ?.filterIsInstance(Chip::class.java)
+            ?.forEach { chip ->
+                if (chip.text == company.name) {
+                    binding?.chipGroup?.apply { check(chip.id) }
+                    return@forEach
+                }
+            }
     }
 
     private fun bindViews() {
@@ -124,8 +144,35 @@ class AddTrackingItemFragment: ScopeFragment(), AddTrackingItemsContract.View {
         }
     }
 
+    /**
+     * 클립보드에 저장되어 있는 송장 번호 가져오기
+     */
+    private fun changeInvoiceIfAvailable() {
+        val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val invoice = clipboard.plainTextClip()
+        if (!invoice.isNullOrBlank()) {
+            AlertDialog.Builder(requireActivity())
+                .setTitle("클립 보드에 있는 $invoice 를 송장 번호로 추가하시겠습니까?")
+                .setPositiveButton("추가할래요.") { _, _ ->
+                    binding?.invoiceEditText?.setText(invoice)
+                    presenter.fetchRecommendShippingCompany()
+                }
+                .setNegativeButton("안 할래요.") { _, _ -> }
+                .create()
+                .show()
+        }
+    }
+
     private fun hideKeyboard() {
-        val inputMethodManager = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
     }
+
+    private fun ClipboardManager.plainTextClip(): String? =
+        if (hasPrimaryClip() && (primaryClipDescription?.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) == true) {
+            primaryClip?.getItemAt(0)?.text?.toString()
+        } else {
+            null
+        }
 }

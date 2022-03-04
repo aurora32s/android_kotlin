@@ -21,7 +21,7 @@ class TrackingItemRepositoryImpl(
         trackingItemDao.allTrackingItems().distinctUntilChanged()
 
     // 택배사 코드와 송장 번호로 정보 받아오기
-    override suspend fun getTrackingItemInformation(): List<Pair<TrackingItem, TrackingInformation>> =
+    override suspend fun getTrackingItemInformations(): List<Pair<TrackingItem, TrackingInformation>> =
         withContext(dispatcher) {
             trackingItemDao.getAll() // DB에 저장되어 있는 송장 번호와 택배사 코드 가져오기
                 .mapNotNull { trackingItem -> // 결과가 null 이 아닌 경우
@@ -46,6 +46,11 @@ class TrackingItemRepositoryImpl(
                 )
         }
 
+    override suspend fun getTrackingInformation(companyCode: String, invoice: String): TrackingInformation? =
+        trackerApi.getTrackingInformation(companyCode, invoice)
+            .body()
+            ?.sortTrackingDetailsByTimeDescending()
+
     override suspend fun saveTrackingItem(trackingItem: TrackingItem) = withContext(dispatcher) {
         // 해당 택배사와 송장 번호가 유효한지 검사
         val trackingInformation = trackerApi.getTrackingInformation(
@@ -60,4 +65,10 @@ class TrackingItemRepositoryImpl(
         trackingItemDao.insert(trackingItem)
     }
 
+    override suspend fun deleteTrackingItem(trackingItem: TrackingItem) {
+        trackingItemDao.delete(trackingItem)
+    }
+
+    private fun TrackingInformation.sortTrackingDetailsByTimeDescending() =
+        copy(trackingDetails = trackingDetails?.sortedByDescending { it.time ?: 0L })
 }

@@ -65,6 +65,11 @@ class TrackingItemsFragment : ScopeFragment(), TrackingItemsContract.View {
             // action name -> 등록 화면으로 이동
             findNavController().navigate(R.id.to_add_tracking_item)
         }
+        (binding?.recyclerView?.adapter as? TrackingItemsAdapter)?.onClickItemListener =
+            { item, information ->
+                findNavController()
+                    .navigate(TrackingItemsFragmentDirections.toTrackingHistory(item, information))
+            }
     }
 
     override fun showLoadingIndicator() {

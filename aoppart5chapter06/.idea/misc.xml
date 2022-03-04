@@ -8,9 +8,10 @@
         <entry key="app/src/main/res/drawable/ic_baseline_local_shipping_24.xml" value="0.1125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3104166666666667" />
         <entry key="app/src/main/res/layout/fragment_add_tracking_item.xml" value="0.125" />
-        <entry key="app/src/main/res/layout/fragment_tracking_history.xml" value="0.3104166666666667" />
+        <entry key="app/src/main/res/layout/fragment_tracking_history.xml" value="0.2598105548037889" />
         <entry key="app/src/main/res/layout/fragment_tracking_items.xml" value="0.125" />
         <entry key="app/src/main/res/layout/item_tracking.xml" value="0.15104166666666666" />
+        <entry key="app/src/main/res/layout/item_tracking_history.xml" value="0.15104166666666666" />
       </map>
     </option>
   </component>

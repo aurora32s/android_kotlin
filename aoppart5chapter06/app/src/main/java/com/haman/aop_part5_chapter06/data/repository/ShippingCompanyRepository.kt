@@ -10,4 +10,8 @@ interface ShippingCompanyRepository {
      * 회사 리스트 요청
      */
     suspend fun getShippingCompanies(): List<ShippingCompany>
+    /**
+     * 추천 회사 검색
+     */
+    suspend fun getRecommendShippingCompany(invoice: String): ShippingCompany?
 }
