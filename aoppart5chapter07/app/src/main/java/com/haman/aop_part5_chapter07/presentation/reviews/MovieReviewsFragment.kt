@@ -2,6 +2,7 @@ package com.haman.aop_part5_chapter07.presentation.reviews
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -68,8 +69,20 @@ class MovieReviewsFragment : ScopeFragment(), MovieReviewsContract.View {
                 hideKeyboard()
             }
             onReviewDeleteButtonClickListener = { review ->
+                showDeleteConfirmDialog(review)
             }
         }
+    }
+
+    private fun showDeleteConfirmDialog(review: Review) {
+        AlertDialog.Builder(context)
+            .setTitle("정말로 리뷰를 삭제하실껀가요?")
+            .setPositiveButton("삭제할래요"){_,_ ->
+                presenter.requestRemoveReview(review)
+            }
+            .setNegativeButton("안할래요."){_,_ ->}
+            .create()
+            .show()
     }
 
     @SuppressLint("NotifyDataSetChanged")

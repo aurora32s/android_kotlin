@@ -34,7 +34,7 @@ class ReviewRepositoryImpl(
 
     override suspend fun removeReview(review: Review) {
         withContext(dispatcher){
-            reviewApi.addReview(review)
+            reviewApi.removeReview(review)
         }
     }
 }

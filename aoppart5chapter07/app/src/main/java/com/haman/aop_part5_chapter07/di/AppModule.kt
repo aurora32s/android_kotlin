@@ -18,10 +18,7 @@ import com.haman.aop_part5_chapter07.data.repository.impl.MovieRepositoryImpl
 import com.haman.aop_part5_chapter07.data.repository.impl.ReviewRepositoryImpl
 import com.haman.aop_part5_chapter07.data.repository.impl.UserRepositoryImpl
 import com.haman.aop_part5_chapter07.domain.model.Movie
-import com.haman.aop_part5_chapter07.domain.usecase.GetAllMoviesUseCase
-import com.haman.aop_part5_chapter07.domain.usecase.GetAllReviewsUseCase
-import com.haman.aop_part5_chapter07.domain.usecase.GetMyReviewedMovieUseCase
-import com.haman.aop_part5_chapter07.domain.usecase.GetRandomFeaturedMovieUseCase
+import com.haman.aop_part5_chapter07.domain.usecase.*
 import com.haman.aop_part5_chapter07.presentation.home.HomeContract
 import com.haman.aop_part5_chapter07.presentation.home.HomeFragment
 import com.haman.aop_part5_chapter07.presentation.home.HomePresenter
@@ -62,6 +59,8 @@ val domainModule = module {
     factory { GetAllMoviesUseCase(get()) }
     factory { GetAllReviewsUseCase(get(), get()) }
     factory { GetMyReviewedMovieUseCase(get(),get(),get()) }
+    factory { SubmitReviewUseCase(get(),get()) }
+    factory { DeleteReviewUseCase(get()) }
 }
 
 val presenterModule = module {
@@ -70,7 +69,7 @@ val presenterModule = module {
     }
     scope<MovieReviewsFragment> {
         scoped<MovieReviewsContract.Presenter> { (movie: Movie) ->
-            MovieReviewsPresenter(getSource(), movie, get())
+            MovieReviewsPresenter(getSource(), movie, get(), get(), get())
         }
     }
     scope<MyPageFragment> {
