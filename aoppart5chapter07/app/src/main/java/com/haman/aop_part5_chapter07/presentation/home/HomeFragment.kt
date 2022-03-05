@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +35,7 @@ class HomeFragment : ScopeFragment(), HomeContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        bindViews()
         presenter.onViewCreated()
     }
 
@@ -72,6 +74,16 @@ class HomeFragment : ScopeFragment(), HomeContract.View {
             layoutManager = gridLayout
             adapter = HomeAdapter()
             addItemDecoration(GridSpacingItemDecoration(gridLayout.spanCount, dip(6f)))
+        }
+    }
+
+    private fun bindViews() {
+        (binding?.recyclerView?.adapter as? HomeAdapter)?.apply {
+            onMovieClickListener = { movie ->
+                // 영화 리뷰 페이지로 이동
+                val action = HomeFragmentDirections.toMovieReviewsAction(movie)
+                findNavController().navigate(action)
+            }
         }
     }
 

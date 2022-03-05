@@ -1,11 +1,25 @@
 package com.haman.aop_part5_chapter07.domain.usecase
 
 import com.haman.aop_part5_chapter07.data.repository.ReviewRepository
-import com.haman.aop_part5_chapter07.domain.model.Review
+import com.haman.aop_part5_chapter07.data.repository.UserRepository
+import com.haman.aop_part5_chapter07.domain.model.MovieReviews
+import com.haman.aop_part5_chapter07.domain.model.User
 
 class GetAllReviewsUseCase(
+    private val userRepository: UserRepository,
     private val reviewRepository: ReviewRepository
 ) {
-    suspend operator fun invoke(movieId: String): List<Review> =
-        reviewRepository.getAllMovieReviews(movieId)
+    suspend operator fun invoke(movieId: String): MovieReviews {
+        val reviews = reviewRepository.getAllMovieReviews(movieId)
+        val user = userRepository.getUser()
+
+        if (user == null) {
+            userRepository.saveUser(User())
+            return MovieReviews(null, reviews)
+        }
+        return MovieReviews(
+            reviews.find { it.userId == user.id },
+            reviews.filter { it.userId != user.id }
+        )
+    }
 }

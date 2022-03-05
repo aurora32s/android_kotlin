@@ -28,5 +28,4 @@ class ReviewFireStoreApi(
             .get()
             .await()
             .map { it.toObject() }
-
 }
