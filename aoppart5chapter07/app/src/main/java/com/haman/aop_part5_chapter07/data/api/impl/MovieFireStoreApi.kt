@@ -1,5 +1,6 @@
 package com.haman.aop_part5_chapter07.data.api.impl
 
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.haman.aop_part5_chapter07.data.api.MovieApi
@@ -16,4 +17,10 @@ class MovieFireStoreApi(
             .await()
             .map { it.toObject() }
 
+    override suspend fun getMovies(movieIds: List<String>): List<Movie> =
+        fireStore.collection("movies")
+            .whereIn(FieldPath.documentId(), movieIds)
+            .get()
+            .await()
+            .map { it.toObject() }
 }

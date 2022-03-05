@@ -28,4 +28,12 @@ class ReviewFireStoreApi(
             .get()
             .await()
             .map { it.toObject() }
+
+    override suspend fun getAllUserReviews(userId: String): List<Review> =
+        fireStore.collection("reviews")
+            .whereEqualTo("userId", userId)
+            .orderBy("createdAt", Query.Direction.DESCENDING)
+            .get()
+            .await()
+            .map { it.toObject() }
 }

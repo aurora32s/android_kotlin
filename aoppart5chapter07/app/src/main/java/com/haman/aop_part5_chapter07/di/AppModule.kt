@@ -20,6 +20,7 @@ import com.haman.aop_part5_chapter07.data.repository.impl.UserRepositoryImpl
 import com.haman.aop_part5_chapter07.domain.model.Movie
 import com.haman.aop_part5_chapter07.domain.usecase.GetAllMoviesUseCase
 import com.haman.aop_part5_chapter07.domain.usecase.GetAllReviewsUseCase
+import com.haman.aop_part5_chapter07.domain.usecase.GetMyReviewedMovieUseCase
 import com.haman.aop_part5_chapter07.domain.usecase.GetRandomFeaturedMovieUseCase
 import com.haman.aop_part5_chapter07.presentation.home.HomeContract
 import com.haman.aop_part5_chapter07.presentation.home.HomeFragment
@@ -57,6 +58,7 @@ val domainModule = module {
     factory { GetRandomFeaturedMovieUseCase(get(), get()) }
     factory { GetAllMoviesUseCase(get()) }
     factory { GetAllReviewsUseCase(get(), get()) }
+    factory { GetMyReviewedMovieUseCase(get(),get(),get()) }
 }
 
 val presenterModule = module {

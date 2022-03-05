@@ -18,6 +18,7 @@ class MovieRepositoryImpl(
         movieApi.getAllMovies()
     }
 
-    override suspend fun getMovies(movieId: List<String>): List<Movie> = emptyList()
-
+    override suspend fun getMovies(movieId: List<String>): List<Movie> = withContext(dispatcher){
+        movieApi.getMovies(movieId)
+    }
 }
