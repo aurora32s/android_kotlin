@@ -12,10 +12,15 @@ import kotlinx.coroutines.withContext
 class ReviewRepositoryImpl(
     private val reviewApi: ReviewApi,
     private val dispatcher: CoroutineDispatcher
-): ReviewRepository {
+) : ReviewRepository {
 
-    override suspend fun getLatestReview(movieId: String): Review? = withContext(dispatcher){
+    override suspend fun getLatestReview(movieId: String): Review? = withContext(dispatcher) {
         reviewApi.getLatestReview(movieId)
     }
+
+    override suspend fun getAllMovieReviews(movieId: String): List<Review> =
+        withContext(dispatcher) {
+            reviewApi.getAllMovieReviews(movieId)
+        }
 
 }
