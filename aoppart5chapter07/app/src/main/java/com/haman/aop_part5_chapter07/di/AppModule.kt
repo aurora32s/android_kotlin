@@ -25,6 +25,9 @@ import com.haman.aop_part5_chapter07.domain.usecase.GetRandomFeaturedMovieUseCas
 import com.haman.aop_part5_chapter07.presentation.home.HomeContract
 import com.haman.aop_part5_chapter07.presentation.home.HomeFragment
 import com.haman.aop_part5_chapter07.presentation.home.HomePresenter
+import com.haman.aop_part5_chapter07.presentation.mypage.MyPageContract
+import com.haman.aop_part5_chapter07.presentation.mypage.MyPageFragment
+import com.haman.aop_part5_chapter07.presentation.mypage.MyPagePresenter
 import com.haman.aop_part5_chapter07.presentation.reviews.MovieReviewsContract
 import com.haman.aop_part5_chapter07.presentation.reviews.MovieReviewsFragment
 import com.haman.aop_part5_chapter07.presentation.reviews.MovieReviewsPresenter
@@ -68,6 +71,11 @@ val presenterModule = module {
     scope<MovieReviewsFragment> {
         scoped<MovieReviewsContract.Presenter> { (movie: Movie) ->
             MovieReviewsPresenter(getSource(), movie, get())
+        }
+    }
+    scope<MyPageFragment> {
+        scoped<MyPageContract.Presenter> {
+            MyPagePresenter(getSource(),get())
         }
     }
 }
