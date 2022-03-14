@@ -3,12 +3,14 @@ package com.haman.aop_part6_chapter01.util.mapper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.haman.aop_part6_chapter01.databinding.ViewholderEmptyBinding
+import com.haman.aop_part6_chapter01.databinding.ViewholderRestaurantBinding
 import com.haman.aop_part6_chapter01.model.CellType
 import com.haman.aop_part6_chapter01.model.Model
 import com.haman.aop_part6_chapter01.screen.base.BaseViewModel
 import com.haman.aop_part6_chapter01.util.provider.ResourcesProvider
 import com.haman.aop_part6_chapter01.widget.adapter.viewholder.ModelViewHolder
 import com.haman.aop_part6_chapter01.widget.adapter.viewholder.impl.EmptyViewHolder
+import com.haman.aop_part6_chapter01.widget.adapter.viewholder.impl.restaurant.RestaurantViewHolder
 
 object ModelViewHolderMapper {
 
@@ -23,6 +25,11 @@ object ModelViewHolderMapper {
         val viewHolder = when (type) {
             CellType.EMPTY_CELL -> EmptyViewHolder(
                 ViewholderEmptyBinding.inflate(inflater, parent, false),
+                viewModel,
+                resourcesProvider
+            )
+            CellType.RESTAURANT_CELL -> RestaurantViewHolder(
+                ViewholderRestaurantBinding.inflate(inflater, parent, false),
                 viewModel,
                 resourcesProvider
             )

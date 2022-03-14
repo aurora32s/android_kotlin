@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -42,6 +43,26 @@ class MainActivity : AppCompatActivity() {
     }
     private val btnChangePwd : AppCompatButton by lazy {
         findViewById(R.id.btn_change_pwd)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(".MainActivity", "onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(".MainActivity", "onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(".MainActivity", "onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(".MainActivity", "onStop")
     }
 
     // true : 비밀번호 변경 모드, false : 비밀번호 등록 하기

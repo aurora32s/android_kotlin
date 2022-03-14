@@ -52,7 +52,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:max="60"
-        android:progress="50"
+        android:progress="40"
         android:progressDrawable="@color/transparent"
         android:thumb="@drawable/ic_baseline_arrow_downward_24"
         android:tickMark="@drawable/tickmark_progress_timer"
