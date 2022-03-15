@@ -15,7 +15,8 @@ fun RestaurantEntity.toModel(type: CellType): RestaurantModel {
         grade = grade,
         reviewCount = reviewCount,
         deliveryTimeRange = deliveryTimeRange,
-        deliveryTipRange = deliveryTipRange
+        deliveryTipRange = deliveryTipRange,
+        restaurantTelNumber = restaurantTelNumber
     )
 }
 
@@ -29,6 +30,7 @@ fun RestaurantModel.toEntity(): RestaurantEntity {
         grade,
         reviewCount,
         deliveryTimeRange,
-        deliveryTipRange
+        deliveryTipRange,
+        restaurantTelNumber = restaurantTelNumber
     )
 }
