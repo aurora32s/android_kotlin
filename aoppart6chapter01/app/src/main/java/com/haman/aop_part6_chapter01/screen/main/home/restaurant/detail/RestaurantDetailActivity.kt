@@ -2,6 +2,7 @@ package com.haman.aop_part6_chapter01.screen.main.home.restaurant.detail
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import com.google.android.material.appbar.AppBarLayout
@@ -53,7 +54,11 @@ class RestaurantDetailActivity :
         })
         toolbar.setNavigationOnClickListener { finish() }
         callButton.setOnClickListener {
-
+            viewModel.getRestaurantPhoneNumber()?.let { telNumber ->
+                // 전화 activity 실행
+                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$telNumber"))
+                startActivity(intent)
+            }
         }
         likeButton.setOnClickListener {
 
