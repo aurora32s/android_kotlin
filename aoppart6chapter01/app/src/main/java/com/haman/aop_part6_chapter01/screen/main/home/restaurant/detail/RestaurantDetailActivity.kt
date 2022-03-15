@@ -61,7 +61,7 @@ class RestaurantDetailActivity :
             }
         }
         likeButton.setOnClickListener {
-
+            viewModel.toggleLikedRestaurant()
         }
         shareButton.setOnClickListener {
 
@@ -70,11 +70,11 @@ class RestaurantDetailActivity :
 
     override fun observeData() = viewModel.restaurantDetailStateLiveData.observe(this) {
         when (it) {
-            RestaurantDetailState.Loading -> TODO()
+            RestaurantDetailState.Loading -> Unit
             is RestaurantDetailState.Success -> {
                 handleSuccess(it)
             }
-            RestaurantDetailState.UnInitialized -> TODO()
+            RestaurantDetailState.UnInitialized -> Unit
         }
     }
 
