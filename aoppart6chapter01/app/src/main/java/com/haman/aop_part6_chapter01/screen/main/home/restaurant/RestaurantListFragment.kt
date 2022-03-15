@@ -6,7 +6,9 @@ import androidx.core.os.bundleOf
 import com.haman.aop_part6_chapter01.data.entity.impl.LocationLatLngEntity
 import com.haman.aop_part6_chapter01.databinding.FragmentRestaurantListBinding
 import com.haman.aop_part6_chapter01.model.restaurant.RestaurantModel
+import com.haman.aop_part6_chapter01.model.restaurant.toEntity
 import com.haman.aop_part6_chapter01.screen.base.BaseFragment
+import com.haman.aop_part6_chapter01.screen.main.home.restaurant.detail.RestaurantDetailActivity
 import com.haman.aop_part6_chapter01.util.provider.ResourcesProvider
 import com.haman.aop_part6_chapter01.widget.adapter.ModelRecyclerAdapter
 import com.haman.aop_part6_chapter01.widget.adapter.impl.RestaurantListFragmentPagerAdapter
@@ -37,7 +39,14 @@ class RestaurantListFragment :
             resourceProvider,
             adapterListener = object : RestaurantListListener {
                 override fun onClickItem(model: RestaurantModel) {
-                    Toast.makeText(requireContext(), "$model", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(requireContext(), "$model", Toast.LENGTH_SHORT).show()
+                    // TODO 식당 상세 화면으로 이동
+                    startActivity(
+                        RestaurantDetailActivity.newIntent(
+                            requireContext(),
+                            model.toEntity()
+                        )
+                    )
                 }
             }
         )
@@ -54,6 +63,7 @@ class RestaurantListFragment :
     companion object {
         private const val RESTAURANT_CATEGORY_KEY = "restaurantCategory"
         private const val LOCATION_KEY = "location"
+        const val RESTAURANT_KEY = "RESTAURANT_KEY"
 
         fun newInstance(
             restaurantCategory: RestaurantCategory,

@@ -2,6 +2,7 @@ package com.haman.aop_part6_chapter01.di
 
 import com.haman.aop_part6_chapter01.data.entity.impl.LocationLatLngEntity
 import com.haman.aop_part6_chapter01.data.entity.impl.MapSearchInfoEntity
+import com.haman.aop_part6_chapter01.data.entity.impl.RestaurantEntity
 import com.haman.aop_part6_chapter01.data.network.MapApiService
 import com.haman.aop_part6_chapter01.data.repository.restaurant.DefaultRestaurantRepository
 import com.haman.aop_part6_chapter01.data.repository.RestaurantRepository
@@ -12,6 +13,7 @@ import com.haman.aop_part6_chapter01.data.repository.user.UserRepository
 import com.haman.aop_part6_chapter01.screen.main.home.HomeViewModel
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.RestaurantCategory
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.RestaurantListViewModel
+import com.haman.aop_part6_chapter01.screen.main.home.restaurant.detail.RestaurantDetailViewModel
 import com.haman.aop_part6_chapter01.screen.main.mypage.MyPageViewModel
 import com.haman.aop_part6_chapter01.screen.mylocation.MyLocationViewModel
 import com.haman.aop_part6_chapter01.util.provider.ResourcesProvider
@@ -51,4 +53,5 @@ val appModule = module {
         RestaurantListViewModel(restaurantCategory, locationLatLng, get())
     }
     viewModel { (mapSearchInfoEntity: MapSearchInfoEntity) -> MyLocationViewModel(mapSearchInfoEntity, get(), get())}
+    viewModel { (restaurant: RestaurantEntity) -> RestaurantDetailViewModel(restaurant)}
 }

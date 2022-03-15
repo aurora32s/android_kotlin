@@ -24,4 +24,9 @@
 
     <string name="request_check_location">위치가 맞는지 확인해주세요.</string>
 
+    <!-- Restaurant Detail -->
+    <string name="call">전화</string>
+    <string name="like">찜</string>
+    <string name="share">공유</string>
+
 </resources>

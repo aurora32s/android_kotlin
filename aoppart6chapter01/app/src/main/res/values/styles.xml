@@ -31,4 +31,10 @@
         <item name="chipEndPadding">2dp</item>
     </style>
 
+    <!-- appbar -->
+    <style name="AppTheme.AppBarOverlay" parent="Theme.Aoppart6chapter01">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:background">@null</item>
+    </style>
 </resources>
