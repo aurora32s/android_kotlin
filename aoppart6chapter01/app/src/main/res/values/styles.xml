@@ -8,8 +8,8 @@
     </style>
 
     <style name="Widget.AopPart6Chapter01.Toolbar.WithArrow" parent="Widget.AopPart6Chapter01.Toolbar">
-        <item name="android:navigationIcon">@drawable/ic_back_arrow</item>
-        <item name="android:title">@null</item>
+        <item name="navigationIcon">@drawable/ic_back_arrow</item>
+        <item name="android:background">@color/white</item>
     </style>
 
     <style name="Widget.AopPart6Chapter01.Toolbar.Close" parent="Widget.AopPart6Chapter01.Toolbar">

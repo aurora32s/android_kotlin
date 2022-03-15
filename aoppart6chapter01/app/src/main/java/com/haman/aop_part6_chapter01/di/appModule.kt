@@ -1,5 +1,6 @@
 package com.haman.aop_part6_chapter01.di
 
+import com.haman.aop_part6_chapter01.data.entity.impl.MapSearchInfoEntity
 import com.haman.aop_part6_chapter01.data.network.MapApiService
 import com.haman.aop_part6_chapter01.data.repository.restaurant.DefaultRestaurantRepository
 import com.haman.aop_part6_chapter01.data.repository.RestaurantRepository
@@ -9,6 +10,7 @@ import com.haman.aop_part6_chapter01.screen.main.home.HomeViewModel
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.RestaurantCategory
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.RestaurantListViewModel
 import com.haman.aop_part6_chapter01.screen.main.mypage.MyPageViewModel
+import com.haman.aop_part6_chapter01.screen.mylocation.MyLocationViewModel
 import com.haman.aop_part6_chapter01.util.provider.ResourcesProvider
 import com.haman.aop_part6_chapter01.util.provider.impl.DefaultResourceProvider
 import kotlinx.coroutines.Dispatchers
@@ -38,4 +40,5 @@ val appModule = module {
     viewModel { HomeViewModel(get()) }
     viewModel { MyPageViewModel() }
     viewModel { (restaurantCategory: RestaurantCategory) -> RestaurantListViewModel(restaurantCategory, get()) }
+    viewModel { (mapSearchInfoEntity: MapSearchInfoEntity) -> MyLocationViewModel(mapSearchInfoEntity, get())}
 }

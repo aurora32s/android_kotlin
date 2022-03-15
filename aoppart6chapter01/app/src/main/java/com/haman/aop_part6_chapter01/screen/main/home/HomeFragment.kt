@@ -2,7 +2,9 @@ package com.haman.aop_part6_chapter01.screen.main.home
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -14,10 +16,12 @@ import androidx.core.view.isVisible
 import com.google.android.material.tabs.TabLayoutMediator
 import com.haman.aop_part6_chapter01.R
 import com.haman.aop_part6_chapter01.data.entity.impl.LocationLatLngEntity
+import com.haman.aop_part6_chapter01.data.entity.impl.MapSearchInfoEntity
 import com.haman.aop_part6_chapter01.databinding.FragmentHomeBinding
 import com.haman.aop_part6_chapter01.screen.base.BaseFragment
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.RestaurantCategory
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.RestaurantListFragment
+import com.haman.aop_part6_chapter01.screen.mylocation.MyLocationActivity
 import com.haman.aop_part6_chapter01.widget.adapter.impl.RestaurantListFragmentPagerAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -58,6 +62,29 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
             }
         }
 
+    override fun initViews() = with(binding) {
+        locationTextView.setOnClickListener {
+            viewModel.getMapSearchInfo()?.let { mapInfo ->
+                changeLocationLauncher.launch(
+                    MyLocationActivity.newIntent(
+                        requireContext(), mapInfo
+                    )
+                )
+            }
+        }
+    }
+
+    // 위치 변경 launcher
+    private val changeLocationLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.getParcelableExtra<MapSearchInfoEntity>(HomeViewModel.MY_LOCATION_KEY)
+                    ?.let { myLocationInfo ->
+                        viewModel.loadReverseGeoInformation(myLocationInfo.locationLatLng)
+                    }
+            }
+        }
+
     private fun initViewsPager(locationLatLngEntity: LocationLatLngEntity) = with(binding) {
         val restaurantCategories = RestaurantCategory.values()
 
@@ -85,12 +112,12 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                 locationLoading.isVisible = true
                 locationTextView.setText(R.string.loading)
             }
-            is HomeState.Success -> with(binding) {
-                locationLoading.isGone = true
-                locationTextView.text = it.mapSearchInfoEntity.fullAddress
-                tabLayout.isVisible = true
-                filterScrollView.isVisible = true
-                viewPager.isVisible = true
+            is HomeState.Success -> {
+                binding.locationLoading.isGone = true
+                binding.locationTextView.text = it.mapSearchInfoEntity.fullAddress
+                binding.tabLayout.isVisible = true
+                binding.filterScrollView.isVisible = true
+                binding.viewPager.isVisible = true
                 initViewsPager(it.mapSearchInfoEntity.locationLatLng)
             }
             is HomeState.Error -> with(binding) {
