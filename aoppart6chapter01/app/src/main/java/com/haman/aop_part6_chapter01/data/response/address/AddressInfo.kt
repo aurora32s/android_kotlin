@@ -22,9 +22,12 @@ data class AddressInfo(
     val mappingDistance: String,
     val roadCode: String
 ) {
-    fun toSearchInfoEntity(locationLatLngEntity: LocationLatLngEntity) = MapSearchInfoEntity(
-        fullAddress = fullAddress ?: "위치 정보 없음",
-        name = buildingName ?: "빌딩 정보 없음",
-        locationLatLng = locationLatLngEntity
-    )
+    fun toSearchInfoEntity(
+        locationLatLngEntity: LocationLatLngEntity
+    ) =
+        MapSearchInfoEntity(
+            fullAddress = fullAddress ?: "위치 정보 없음",
+            name = buildingName ?: "빌딩 정보 없음",
+            locationLatLng = locationLatLngEntity
+        )
 }

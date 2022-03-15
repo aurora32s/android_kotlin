@@ -3,6 +3,7 @@ package com.haman.aop_part6_chapter01.screen.main.home.restaurant
 import android.util.Log
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import com.haman.aop_part6_chapter01.data.entity.impl.LocationLatLngEntity
 import com.haman.aop_part6_chapter01.databinding.FragmentRestaurantListBinding
 import com.haman.aop_part6_chapter01.model.restaurant.RestaurantModel
 import com.haman.aop_part6_chapter01.screen.base.BaseFragment
@@ -17,7 +18,13 @@ import org.koin.core.parameter.parametersOf
 class RestaurantListFragment :
     BaseFragment<RestaurantListViewModel, FragmentRestaurantListBinding>() {
     private val restaurantCategory by lazy { arguments?.getSerializable(RESTAURANT_CATEGORY_KEY) as RestaurantCategory }
-    override val viewModel: RestaurantListViewModel by viewModel { parametersOf(restaurantCategory) }
+    private val locationLatLng by lazy { arguments?.getParcelable<LocationLatLngEntity>(LOCATION_KEY) as LocationLatLngEntity }
+    override val viewModel: RestaurantListViewModel by viewModel {
+        parametersOf(
+            restaurantCategory,
+            locationLatLng
+        )
+    }
 
     override fun getViewBinding(): FragmentRestaurantListBinding =
         FragmentRestaurantListBinding.inflate(layoutInflater)
@@ -28,7 +35,7 @@ class RestaurantListFragment :
             listOf(),
             viewModel,
             resourceProvider,
-            adapterListener = object : RestaurantListListener{
+            adapterListener = object : RestaurantListListener {
                 override fun onClickItem(model: RestaurantModel) {
                     Toast.makeText(requireContext(), "$model", Toast.LENGTH_SHORT).show()
                 }
@@ -46,11 +53,16 @@ class RestaurantListFragment :
 
     companion object {
         private const val RESTAURANT_CATEGORY_KEY = "restaurantCategory"
+        private const val LOCATION_KEY = "location"
 
-        fun newInstance(restaurantCategory: RestaurantCategory): RestaurantListFragment {
+        fun newInstance(
+            restaurantCategory: RestaurantCategory,
+            locationLatLngEntity: LocationLatLngEntity
+        ): RestaurantListFragment {
             return RestaurantListFragment().apply {
                 arguments = bundleOf(
-                    RESTAURANT_CATEGORY_KEY to restaurantCategory
+                    RESTAURANT_CATEGORY_KEY to restaurantCategory,
+                    LOCATION_KEY to locationLatLngEntity
                 )
             }
         }

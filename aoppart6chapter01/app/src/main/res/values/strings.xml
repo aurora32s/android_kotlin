@@ -21,4 +21,6 @@
     <string name="loading">로딩중...</string>
     <string name="error_location_dis_found">위치 정보 없음.</string>
     <string name="btn_location_text">이 위치로 주소 설정</string>
+
+    <string name="request_check_location">위치가 맞는지 확인해주세요.</string>
 </resources>

@@ -1,16 +1,19 @@
 package com.haman.aop_part6_chapter01.screen.main.home
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.haman.aop_part6_chapter01.R
 import com.haman.aop_part6_chapter01.data.entity.impl.LocationLatLngEntity
 import com.haman.aop_part6_chapter01.data.entity.impl.MapSearchInfoEntity
 import com.haman.aop_part6_chapter01.data.repository.map.MapRepository
+import com.haman.aop_part6_chapter01.data.repository.user.UserRepository
 import com.haman.aop_part6_chapter01.screen.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val mapRepository: MapRepository
+    private val mapRepository: MapRepository,
+    private val userRepository: UserRepository
 ): BaseViewModel() {
 
     private val _homeStateLiveData = MutableLiveData<HomeState>(HomeState.UnInitialized)
@@ -23,10 +26,16 @@ class HomeViewModel(
     ) = viewModelScope.launch {
         _homeStateLiveData.value = HomeState.Loading
 
-        val addressInfo = mapRepository.getReverseGeoInformation(locationLatLngEntity)
+        val userLocation = userRepository.getUserLocation()
+        val currentLocation = userLocation ?: locationLatLngEntity
+
+        Log.d(".HomeViewModel", userLocation.toString())
+        Log.d(".HomeViewModel", locationLatLngEntity.toString())
+        val addressInfo = mapRepository.getReverseGeoInformation(currentLocation)
         addressInfo?.let { info ->
             _homeStateLiveData.value = HomeState.Success(
-                mapSearchInfoEntity = info.toSearchInfoEntity(locationLatLngEntity)
+                mapSearchInfoEntity = info.toSearchInfoEntity(locationLatLngEntity),
+                isLocationSame = currentLocation == locationLatLngEntity
             )
         } ?: kotlin.run {
             _homeStateLiveData.value = HomeState.Error(
