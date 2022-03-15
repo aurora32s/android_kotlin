@@ -6,6 +6,8 @@ import com.haman.aop_part6_chapter01.data.entity.impl.RestaurantEntity
 import com.haman.aop_part6_chapter01.data.network.MapApiService
 import com.haman.aop_part6_chapter01.data.repository.restaurant.DefaultRestaurantRepository
 import com.haman.aop_part6_chapter01.data.repository.RestaurantRepository
+import com.haman.aop_part6_chapter01.data.repository.food.DefaultRestaurantFoodRepository
+import com.haman.aop_part6_chapter01.data.repository.food.RestaurantFoodRepository
 import com.haman.aop_part6_chapter01.data.repository.map.DefaultMapRepository
 import com.haman.aop_part6_chapter01.data.repository.map.MapRepository
 import com.haman.aop_part6_chapter01.data.repository.user.DefaultUserRepository
@@ -21,6 +23,7 @@ import com.haman.aop_part6_chapter01.util.provider.impl.DefaultResourceProvider
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
@@ -35,12 +38,15 @@ val appModule = module {
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
     single<MapRepository> { DefaultMapRepository(get(),get()) }
     single<UserRepository> { DefaultUserRepository(get(), get(),get()) }
+    single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get()) }
 
     // api
     single { provideGsonConvertFactory() }
     single { buildOkHttpClient() }
-    single { provideMapRetrofit(get(),get())}
-    single { provideMapApiService(get()) }
+    single(named("map")) { provideMapRetrofit(get(),get())}
+    single(named("food")) { provideFoodRetrofit(get(),get()) }
+    single { provideMapApiService(get(qualifier = named("map"))) }
+    single { provideFoodApiService(get(qualifier = named("food"))) }
 
     // dao
     single { provideDB(androidContext()) }
@@ -54,5 +60,5 @@ val appModule = module {
         RestaurantListViewModel(restaurantCategory, locationLatLng, get())
     }
     viewModel { (mapSearchInfoEntity: MapSearchInfoEntity) -> MyLocationViewModel(mapSearchInfoEntity, get(), get())}
-    viewModel { (restaurant: RestaurantEntity) -> RestaurantDetailViewModel(restaurant, get())}
+    viewModel { (restaurant: RestaurantEntity) -> RestaurantDetailViewModel(restaurant, get(), get())}
 }

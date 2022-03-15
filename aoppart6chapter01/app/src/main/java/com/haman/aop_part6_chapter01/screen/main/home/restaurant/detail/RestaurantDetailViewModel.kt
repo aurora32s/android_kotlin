@@ -3,6 +3,7 @@ package com.haman.aop_part6_chapter01.screen.main.home.restaurant.detail
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.haman.aop_part6_chapter01.data.entity.impl.RestaurantEntity
+import com.haman.aop_part6_chapter01.data.repository.food.RestaurantFoodRepository
 import com.haman.aop_part6_chapter01.data.repository.user.UserRepository
 import com.haman.aop_part6_chapter01.screen.base.BaseViewModel
 import kotlinx.coroutines.Job
@@ -10,7 +11,8 @@ import kotlinx.coroutines.launch
 
 class RestaurantDetailViewModel(
     private val restaurantEntity: RestaurantEntity,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val restaurantFoodRepository: RestaurantFoodRepository
 ): BaseViewModel() {
 
     private val _restaurantDetailStateLiveData = MutableLiveData<RestaurantDetailState>(RestaurantDetailState.UnInitialized)
@@ -19,9 +21,11 @@ class RestaurantDetailViewModel(
 
     override fun fetchData(): Job = viewModelScope.launch{
         _restaurantDetailStateLiveData.value = RestaurantDetailState.Loading
+        val foods = restaurantFoodRepository.getFoods(restaurantId = restaurantEntity.restaurantInfoId)
         val isLiked = userRepository.getUserLikedRestaurant(restaurantEntity.restaurantTitle)
         _restaurantDetailStateLiveData.value = RestaurantDetailState.Success(
             restaurantEntity = restaurantEntity,
+            restaurantFoodList = foods,
             isLiked = isLiked != null
         )
     }
