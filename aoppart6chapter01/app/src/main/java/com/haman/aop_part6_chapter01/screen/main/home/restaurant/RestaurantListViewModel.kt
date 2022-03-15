@@ -15,7 +15,8 @@ import kotlinx.coroutines.launch
 class RestaurantListViewModel(
     private val restaurantCategory: RestaurantCategory,
     private var locationLatLngEntity: LocationLatLngEntity,
-    private val restaurantRepository: RestaurantRepository
+    private val restaurantRepository: RestaurantRepository,
+    private var restaurantOrder: RestaurantOrder = RestaurantOrder.DEFAULT
 ) : BaseViewModel() {
 
     private val _restaurantListLiveData = MutableLiveData<List<RestaurantModel>>()
@@ -24,11 +25,30 @@ class RestaurantListViewModel(
 
     override fun fetchData(): Job = viewModelScope.launch {
         val restaurantList = restaurantRepository.getList(restaurantCategory, locationLatLngEntity)
-        _restaurantListLiveData.value = restaurantList.map { it.toModel(CellType.RESTAURANT_CELL) }
+        val sortedList = getSortedList(restaurantList)
+        _restaurantListLiveData.value = sortedList.map { it.toModel(CellType.RESTAURANT_CELL) }
     }
 
     fun setLocationLatLng(locationLatLngEntity: LocationLatLngEntity) {
         this.locationLatLngEntity = locationLatLngEntity
+        fetchData()
+    }
+
+    private fun getSortedList(restaurantList: List<RestaurantEntity>) = when(restaurantOrder) {
+        RestaurantOrder.DEFAULT -> {restaurantList}
+        RestaurantOrder.FAST_DELIVERY -> {
+            restaurantList.sortedBy { it.deliveryTimeRange.first }
+        }
+        RestaurantOrder.LOW_DELIVERY_TIP -> {
+            restaurantList.sortedBy { it.deliveryTipRange.first }
+        }
+        RestaurantOrder.TOP_RATE -> {
+            restaurantList.sortedBy { it.grade }
+        }
+    }
+
+    fun setRestaurantOrder(order: RestaurantOrder) {
+        this.restaurantOrder = order
         fetchData()
     }
 }

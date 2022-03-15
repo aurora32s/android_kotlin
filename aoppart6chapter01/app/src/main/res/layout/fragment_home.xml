@@ -85,21 +85,28 @@
                 android:layout_height="wrap_content"
                 android:text="@string/initialize"
                 android:visibility="gone"
-                app:chipIconEnabled="true" /><!--초기화-->
+                app:chipIcon="@drawable/ic_refresh"
+                app:chipIconEnabled="true"
+                app:chipIconTint="@color/icon_filter_chip_state_list"
+                tools:visibility="visible" /><!--초기화-->
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipFastDelivery"
                 style="@style/Widget.AopPart6Chapter01.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/fast_delivery"
-                app:chipIconEnabled="true" /><!--배달빠른순-->
+                app:chipIcon="@drawable/ic_thunder"
+                app:chipIconEnabled="true"
+                app:chipIconTint="@color/icon_filter_chip_state_list_delivery_fast" /><!--배달빠른순-->
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipLowDeliveryTip"
                 style="@style/Widget.AopPart6Chapter01.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/low_delivery_tip"
-                app:chipIconEnabled="true" /><!--배달비낮은순-->
+                app:chipIcon="@drawable/ic_down"
+                app:chipIconEnabled="true"
+                app:chipIconTint="@color/icon_filter_chip_state_list_delivery_tip" /><!--배달비낮은순-->
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipDefault"
                 style="@style/Widget.AopPart6Chapter01.Chip"
@@ -113,7 +120,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/top_rate"
-                app:chipIconEnabled="true" /><!--별점높은순-->
+                app:chipIconEnabled="true"
+                app:chipIcon="@drawable/ic_star"
+                app:chipIconTint="@color/text_filter_chip_state_list"/><!--별점높은순-->
 
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>

@@ -20,6 +20,7 @@ import com.haman.aop_part6_chapter01.databinding.FragmentHomeBinding
 import com.haman.aop_part6_chapter01.screen.base.BaseFragment
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.RestaurantCategory
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.RestaurantListFragment
+import com.haman.aop_part6_chapter01.screen.main.home.restaurant.RestaurantOrder
 import com.haman.aop_part6_chapter01.screen.mylocation.MyLocationActivity
 import com.haman.aop_part6_chapter01.widget.adapter.impl.RestaurantListFragmentPagerAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -70,6 +71,37 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                     )
                 )
             }
+        }
+        // 선택한 chip 변경 시 listener
+        filterChipGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.chipDefault -> { // 기본순
+                    chipInitialize.isGone = true
+                    changeRestaurantOrder(RestaurantOrder.DEFAULT)
+                }
+                R.id.chipInitialize -> { // 초기화
+                    chipDefault.isChecked = true
+                    chipInitialize.isGone = true
+                }
+                R.id.chipFastDelivery -> { // 배달 빠른 순
+                    chipInitialize.isVisible = true
+                    changeRestaurantOrder(RestaurantOrder.FAST_DELIVERY)
+                }
+                R.id.chipLowDeliveryTip -> { // 배달 팁 낮은 순
+                    chipInitialize.isVisible = true
+                    changeRestaurantOrder(RestaurantOrder.LOW_DELIVERY_TIP)
+                }
+                R.id.chipTopRate -> { // 별점 높은 순
+                    chipInitialize.isVisible = true
+                    changeRestaurantOrder(RestaurantOrder.TOP_RATE)
+                }
+            }
+        }
+    }
+
+    private fun changeRestaurantOrder(order: RestaurantOrder) {
+        viewPagerAdapter.fragmentList.forEach {
+            it.viewModel.setRestaurantOrder(order)
         }
     }
 
@@ -131,7 +163,11 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
                 // 내 위치와 최근 위치가 다른 경우
                 if (it.isLocationSame.not()) {
-                    Toast.makeText(requireContext(), R.string.request_check_location, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.request_check_location,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
             is HomeState.Error -> with(binding) {
