@@ -8,8 +8,7 @@ data class RestaurantFoodResponse(
     val title: String,
     val description: String,
     val price: Int,
-    val imageUrl: String,
-    val restaurantTitle: String
+    val imageUrl: String
 ) {
     fun toEntity(restaurantId: Long) = RestaurantFoodEntity(
         id,
@@ -17,7 +16,6 @@ data class RestaurantFoodResponse(
         description,
         price.toDouble().toInt(),
         imageUrl,
-        restaurantId,
-        restaurantTitle
+        restaurantId
     )
 }

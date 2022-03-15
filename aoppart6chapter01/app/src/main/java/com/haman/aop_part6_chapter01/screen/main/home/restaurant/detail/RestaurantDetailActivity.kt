@@ -7,14 +7,20 @@ import android.net.Uri
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.haman.aop_part6_chapter01.R
 import com.haman.aop_part6_chapter01.data.entity.impl.RestaurantEntity
+import com.haman.aop_part6_chapter01.data.entity.impl.RestaurantFoodEntity
 import com.haman.aop_part6_chapter01.databinding.ActivityRestaurantDetailBinding
 import com.haman.aop_part6_chapter01.extension.fromDpToPx
 import com.haman.aop_part6_chapter01.extension.load
 import com.haman.aop_part6_chapter01.screen.base.BaseActivity
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.RestaurantListFragment
+import com.haman.aop_part6_chapter01.screen.main.home.restaurant.detail.menu.RestaurantMenuListFragment
+import com.haman.aop_part6_chapter01.screen.main.home.restaurant.detail.review.RestaurantReviewListFragment
+import com.haman.aop_part6_chapter01.widget.adapter.impl.RestaurantDetailListFragmentPagerAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import kotlin.math.abs
@@ -35,6 +41,8 @@ class RestaurantDetailActivity :
         super.initViews()
         initAppBar()
     }
+
+    private lateinit var viewPagerAdapter: RestaurantDetailListFragmentPagerAdapter
 
     private fun initAppBar() = with(binding) {
         appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
@@ -84,7 +92,9 @@ class RestaurantDetailActivity :
 
     override fun observeData() = viewModel.restaurantDetailStateLiveData.observe(this) {
         when (it) {
-            RestaurantDetailState.Loading -> Unit
+            RestaurantDetailState.Loading -> {
+                handleLoading()
+            }
             is RestaurantDetailState.Success -> {
                 handleSuccess(it)
             }
@@ -92,7 +102,12 @@ class RestaurantDetailActivity :
         }
     }
 
+    private fun handleLoading() = with(binding) {
+        progressbar.isVisible = true
+    }
+
     private fun handleSuccess(state: RestaurantDetailState.Success) = with(binding) {
+        progressbar.isGone = true
         val restaurantEntity = state.restaurantEntity
 
         callButton.isGone = restaurantEntity.restaurantTelNumber == null
@@ -111,13 +126,44 @@ class RestaurantDetailActivity :
             restaurantEntity.deliveryTipRange.second
         )
         likeText.setCompoundDrawablesWithIntrinsicBounds(
-            ContextCompat.getDrawable(this@RestaurantDetailActivity, if(state.isLiked == true) {
-                R.drawable.ic_heart_enable
-            } else {
-                R.drawable.ic_heart_disable
-            }),
-            null,null,null
+            ContextCompat.getDrawable(
+                this@RestaurantDetailActivity, if (state.isLiked == true) {
+                    R.drawable.ic_heart_enable
+                } else {
+                    R.drawable.ic_heart_disable
+                }
+            ),
+            null, null, null
         )
+
+        if (::viewPagerAdapter.isInitialized.not()) {
+            initViewPager(
+                restaurantEntity.restaurantInfoId,
+                state.restaurantFoodList
+            )
+        }
+    }
+
+    private fun initViewPager(restaurantId: Long, foodList: List<RestaurantFoodEntity>?) {
+        viewPagerAdapter = RestaurantDetailListFragmentPagerAdapter(
+            this,
+            listOf(
+                RestaurantMenuListFragment.newInstance(
+                    restaurantId,
+                    ArrayList(foodList ?: listOf())
+                ),
+                RestaurantReviewListFragment.newInstance(
+                    restaurantId
+                )
+            )
+        )
+        binding.menuAndReviewViewPager.adapter = viewPagerAdapter
+        TabLayoutMediator(
+            binding.menuAndReviewTabLayout,
+            binding.menuAndReviewViewPager
+        ) { tab, position ->
+            tab.setText(RestaurantCategoryDetail.values()[position].categoryNameId)
+        }.attach()
     }
 
     companion object {

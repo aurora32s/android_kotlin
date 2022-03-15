@@ -13,6 +13,5 @@ data class RestaurantFoodEntity(
     val description: String,
     val price: Int,
     val imageUrl: String,
-    val restaurantId: Long,
-    val restaurantTitle: String? = ""
+    val restaurantId: Long
 ): Parcelable
