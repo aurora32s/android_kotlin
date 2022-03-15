@@ -13,4 +13,8 @@
     <string name="review_count">(%1$d++)</string>
     <string name="delivery_time">%1$d~%2$d분</string>
     <string name="delivery_tip">배달팁 %1$,d원~%2$,d원</string>
+
+    <!-- Home -->
+    <string name="request_location_manager">위치 권한을 설정해주세요.</string>
+    <string name="toast_not_assigned_location_permission">권한을 받지 못했습니다.</string>
 </resources>
