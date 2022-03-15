@@ -23,4 +23,5 @@
     <string name="btn_location_text">이 위치로 주소 설정</string>
 
     <string name="request_check_location">위치가 맞는지 확인해주세요.</string>
+
 </resources>
