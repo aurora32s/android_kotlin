@@ -6,10 +6,14 @@ import android.content.Context
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import com.google.android.material.tabs.TabLayoutMediator
 import com.haman.aop_part6_chapter01.R
+import com.haman.aop_part6_chapter01.data.entity.impl.LocationLatLngEntity
 import com.haman.aop_part6_chapter01.databinding.FragmentHomeBinding
 import com.haman.aop_part6_chapter01.screen.base.BaseFragment
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.RestaurantCategory
@@ -54,12 +58,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
             }
         }
 
-    override fun initViews() {
-        super.initViews()
-        initViewsPager()
-    }
-
-    private fun initViewsPager() = with(binding) {
+    private fun initViewsPager(locationLatLngEntity: LocationLatLngEntity) = with(binding) {
         val restaurantCategories = RestaurantCategory.values()
 
         if (::viewPagerAdapter.isInitialized.not()) {
@@ -82,6 +81,28 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
     override fun observeData() = viewModel.homeStateLiveData.observe(viewLifecycleOwner) {
         when (it) {
             HomeState.UnInitialized -> getMyLocation()
+            HomeState.Loading -> with(binding) {
+                locationLoading.isVisible = true
+                locationTextView.setText(R.string.loading)
+            }
+            is HomeState.Success -> with(binding) {
+                locationLoading.isGone = true
+                locationTextView.text = it.mapSearchInfoEntity.fullAddress
+                tabLayout.isVisible = true
+                filterScrollView.isVisible = true
+                viewPager.isVisible = true
+                initViewsPager(it.mapSearchInfoEntity.locationLatLng)
+            }
+            is HomeState.Error -> with(binding) {
+                locationLoading.isGone = true
+                locationTextView.setText(R.string.error_location_dis_found)
+                Toast.makeText(requireContext(), it.messageId, Toast.LENGTH_SHORT).show()
+
+                // 다시 현재 위치 요청
+                locationTextView.setOnClickListener {
+                    getMyLocation()
+                }
+            }
         }
     }
 
@@ -145,9 +166,15 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
     inner class MyLocationListener : LocationListener {
         // 위치 변경 시 호출
         override fun onLocationChanged(location: Location) {
-            binding.locationTextView.text = "${location.latitude} / ${location.longitude}"
-            removeLocationListener()
+//            binding.locationTextView.text = "${location.latitude} / ${location.longitude}"
             // TODO viewModel 에서 poi 정보 요청
+            viewModel.loadReverseGeoInformation(
+                LocationLatLngEntity(
+                    location.latitude,
+                    location.longitude
+                )
+            )
+            removeLocationListener()
         }
     }
 }

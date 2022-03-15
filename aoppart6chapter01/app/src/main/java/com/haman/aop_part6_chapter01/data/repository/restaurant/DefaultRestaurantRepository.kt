@@ -1,4 +1,4 @@
-package com.haman.aop_part6_chapter01.data.repository.impl
+package com.haman.aop_part6_chapter01.data.repository.restaurant
 
 import com.haman.aop_part6_chapter01.data.entity.impl.RestaurantEntity
 import com.haman.aop_part6_chapter01.data.repository.RestaurantRepository
