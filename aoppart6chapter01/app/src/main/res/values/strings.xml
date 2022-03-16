@@ -50,4 +50,8 @@
     <string name="clear_oder_menu">주문 취소</string>
     <string name="error_to_order">주문하는 도중 알 수 없는 에러가 발생하였습니다.</string>
     <string name="error_to_user">사용자 아이디가 존재하지 않습니다.</string>
+
+    <!-- my -->
+    <string name="error_to_order_history">주문내역을 가져오는 도중 문제가 발생하였습니다.</string>
+    <string name="order_history_title">주문 내역 : %s</string>
 </resources>

@@ -13,6 +13,7 @@ import com.haman.aop_part6_chapter01.widget.adapter.viewholder.impl.EmptyViewHol
 import com.haman.aop_part6_chapter01.widget.adapter.viewholder.impl.food.FoodMenuViewHolder
 import com.haman.aop_part6_chapter01.widget.adapter.viewholder.impl.like.RestaurantLikedListViewHolder
 import com.haman.aop_part6_chapter01.widget.adapter.viewholder.impl.order.OrderMenuViewHolder
+import com.haman.aop_part6_chapter01.widget.adapter.viewholder.impl.order.OrderViewHolder
 import com.haman.aop_part6_chapter01.widget.adapter.viewholder.impl.restaurant.RestaurantViewHolder
 import com.haman.aop_part6_chapter01.widget.adapter.viewholder.impl.review.ReviewViewHolder
 
@@ -54,6 +55,11 @@ object ModelViewHolderMapper {
             )
             CellType.ORDER_FOOD_CELL -> OrderMenuViewHolder(
                 ViewholderOrderMenuBinding.inflate(inflater, parent, false),
+                viewModel,
+                resourcesProvider
+            )
+            CellType.ORDER_CELL -> OrderViewHolder(
+                ViewholderOrderBinding.inflate(inflater, parent, false),
                 viewModel,
                 resourcesProvider
             )

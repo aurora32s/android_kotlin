@@ -16,14 +16,19 @@ import com.haman.aop_part6_chapter01.BuildConfig
 import com.haman.aop_part6_chapter01.R
 import com.haman.aop_part6_chapter01.databinding.FragmentMypageBinding
 import com.haman.aop_part6_chapter01.extension.load
+import com.haman.aop_part6_chapter01.model.order.OrderModel
 import com.haman.aop_part6_chapter01.screen.base.BaseFragment
 import com.haman.aop_part6_chapter01.screen.main.home.HomeFragment
+import com.haman.aop_part6_chapter01.util.provider.ResourcesProvider
 import com.haman.aop_part6_chapter01.widget.adapter.ModelRecyclerAdapter
+import com.haman.aop_part6_chapter01.widget.adapter.listener.AdapterListener
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MyPageFragment : BaseFragment<MyPageViewModel, FragmentMypageBinding>() {
     override val viewModel: MyPageViewModel by viewModel()
 
+    private val resourceProvider by inject<ResourcesProvider>()
     override fun getViewBinding(): FragmentMypageBinding =
         FragmentMypageBinding.inflate(layoutInflater)
 
@@ -58,11 +63,19 @@ class MyPageFragment : BaseFragment<MyPageViewModel, FragmentMypageBinding>() {
         }
 
     private val adapter by lazy {
-        ModelRecyclerAdapter<>
+        ModelRecyclerAdapter<OrderModel, MyPageViewModel>(
+            listOf(),
+            viewModel,
+            resourceProvider,
+            adapterListener = object : AdapterListener{
+
+            }
+        )
     }
 
     override fun initViews() = with(binding) {
         super.initViews()
+        recyclerView.adapter = adapter
         loginButton.setOnClickListener {
             signInGoogle()
         }
@@ -110,6 +123,8 @@ class MyPageFragment : BaseFragment<MyPageViewModel, FragmentMypageBinding>() {
 
         profileImageView.load(state.profileImageUri.toString(), 60f)
         userNameTextView.text = state.userName
+
+        adapter.submitList(state.orderList)
     }
 
     private fun handleLoginState(state: MyPageState.Login) {

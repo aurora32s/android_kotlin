@@ -10,6 +10,7 @@ import com.haman.aop_part6_chapter01.data.preference.AppPreferenceManager
 import com.haman.aop_part6_chapter01.data.repository.order.DefaultOrderRepository
 import com.haman.aop_part6_chapter01.data.repository.order.OrderRepository
 import com.haman.aop_part6_chapter01.data.repository.user.UserRepository
+import com.haman.aop_part6_chapter01.model.order.OrderModel
 import com.haman.aop_part6_chapter01.screen.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -37,13 +38,26 @@ class MyPageViewModel(
     fun setUserInfo(firebaseUser: FirebaseUser?) = viewModelScope.launch {
         firebaseUser?.let { user ->
             when (val orderMenuResult = orderRepository.getAllOrderMenus(user.uid)) {
-                is DefaultOrderRepository.Result.Error -> TODO()
+                is DefaultOrderRepository.Result.Error -> {
+                    _myStateLiveData.value = MyPageState.Error(
+                        R.string.error_to_order_history,
+                        orderMenuResult.e
+                    )
+                }
                 is DefaultOrderRepository.Result.Success<*> -> {
                     val orderList = orderMenuResult.data as List<OrderEntity>
                     _myStateLiveData.value = MyPageState.Success.Registered(
                         userName = user.displayName ?: "익명",
                         profileImageUri = user.photoUrl,
-                        orderList = orderList
+                        orderList = orderList.map {
+                            OrderModel(
+                                id = it.hashCode().toLong(),
+                                orderId = it.id,
+                                userId = it.userId,
+                                restaurantId = it.restaurantId,
+                                foodMenuList = it.foodMenuList
+                            )
+                        }
                     )
                 }
             }
