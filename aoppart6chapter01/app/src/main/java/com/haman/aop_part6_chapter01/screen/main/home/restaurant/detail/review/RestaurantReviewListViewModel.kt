@@ -3,6 +3,7 @@ package com.haman.aop_part6_chapter01.screen.main.home.restaurant.detail.review
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.haman.aop_part6_chapter01.data.repository.review.RestaurantReviewRepository
+import com.haman.aop_part6_chapter01.model.review.ReviewModel
 import com.haman.aop_part6_chapter01.screen.base.BaseViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -20,7 +21,15 @@ class RestaurantReviewListViewModel(
         _reviewStateLiveData.value = RestaurantReviewState.Loading
         val reviews = restaurantReviewRepository.getReviews(restaurantTitle)
         _reviewStateLiveData.value = RestaurantReviewState.Success(
-            reviews
+            reviews.map {
+                ReviewModel(
+                    id = it.id,
+                    title = it.title,
+                    description = it.description,
+                    grade = it.grade,
+                    thumbnailImageUri = it.images?.first()
+                )
+            }
         )
     }
 

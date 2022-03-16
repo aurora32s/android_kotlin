@@ -1,6 +1,7 @@
 package com.haman.aop_part6_chapter01.screen.main.home.restaurant.detail.review
 
 import com.haman.aop_part6_chapter01.data.entity.impl.ReviewEntity
+import com.haman.aop_part6_chapter01.model.review.ReviewModel
 
 sealed interface RestaurantReviewState{
 
@@ -9,7 +10,7 @@ sealed interface RestaurantReviewState{
     object Loading: RestaurantReviewState
 
     data class Success(
-        val reviewList: List<ReviewEntity>
+        val reviewList: List<ReviewModel>
     ): RestaurantReviewState
 
 }
