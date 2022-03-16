@@ -37,4 +37,7 @@
 
     <!-- menu -->
     <string name="price">%d원</string>
+    <string name="logout">로그아웃</string>
+    <string name="empty_result_text">주문 내역이 없습니다.</string>
+    <string name="request_google_login_text">구글 로그인이 필요합니다.</string>
 </resources>
