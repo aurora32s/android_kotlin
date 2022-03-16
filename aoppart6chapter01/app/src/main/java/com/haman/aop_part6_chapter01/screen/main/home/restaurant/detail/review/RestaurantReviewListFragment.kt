@@ -16,7 +16,6 @@ class RestaurantReviewListFragment :
         FragmentListBinding.inflate(layoutInflater)
 
     override fun observeData() {
-        TODO("Not yet implemented")
     }
 
     companion object {

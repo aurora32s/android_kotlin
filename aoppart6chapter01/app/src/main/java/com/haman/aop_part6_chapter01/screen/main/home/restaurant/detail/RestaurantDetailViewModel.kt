@@ -3,6 +3,7 @@ package com.haman.aop_part6_chapter01.screen.main.home.restaurant.detail
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.haman.aop_part6_chapter01.data.entity.impl.RestaurantEntity
+import com.haman.aop_part6_chapter01.data.entity.impl.RestaurantFoodEntity
 import com.haman.aop_part6_chapter01.data.repository.food.RestaurantFoodRepository
 import com.haman.aop_part6_chapter01.data.repository.user.UserRepository
 import com.haman.aop_part6_chapter01.screen.base.BaseViewModel
@@ -22,10 +23,12 @@ class RestaurantDetailViewModel(
     override fun fetchData(): Job = viewModelScope.launch{
         _restaurantDetailStateLiveData.value = RestaurantDetailState.Loading
         val foods = restaurantFoodRepository.getFoods(restaurantId = restaurantEntity.restaurantInfoId)
+        val foodMenuListInBasket = restaurantFoodRepository.getAllFoodMenuListInBasket()
         val isLiked = userRepository.getUserLikedRestaurant(restaurantEntity.restaurantTitle)
         _restaurantDetailStateLiveData.value = RestaurantDetailState.Success(
             restaurantEntity = restaurantEntity,
             restaurantFoodList = foods,
+            foodMenuListInBasket = foodMenuListInBasket,
             isLiked = isLiked != null
         )
     }
@@ -64,6 +67,45 @@ class RestaurantDetailViewModel(
                     )
                 }
             }
+        }
+    }
+
+    // 새로운 메뉴를 장바구니에 추가
+    fun notifyFoodMenuListInBasket(foodEntity: RestaurantFoodEntity) = viewModelScope.launch {
+        when(val data = _restaurantDetailStateLiveData.value) {
+            is RestaurantDetailState.Success -> {
+                _restaurantDetailStateLiveData.value = data.copy(
+                    foodMenuListInBasket = data.foodMenuListInBasket?.toMutableList()?.apply {
+                        add(foodEntity)
+                    }
+                )
+            }
+            else -> Unit
+        }
+    }
+
+    // 다른 식당 메뉴 삭제 요청
+    fun notifyClearMenuAlertInBasket(isClearNeed: Boolean, cb: () -> Unit) {
+        when(val data = _restaurantDetailStateLiveData.value) {
+            is RestaurantDetailState.Success -> {
+                _restaurantDetailStateLiveData.value = data.copy(
+                    isClearNeedInBasketAndAction = Pair(isClearNeed, cb)
+                )
+            }
+            else -> Unit
+        }
+    }
+
+    // 장바구니 지우기
+    fun notifyClearBasket() = viewModelScope.launch {
+        when(val data = _restaurantDetailStateLiveData.value) {
+            is RestaurantDetailState.Success -> {
+                _restaurantDetailStateLiveData.value = data.copy(
+                    foodMenuListInBasket = listOf(),
+                    isClearNeedInBasketAndAction = Pair(false, {})
+                )
+            }
+            else -> Unit
         }
     }
 }

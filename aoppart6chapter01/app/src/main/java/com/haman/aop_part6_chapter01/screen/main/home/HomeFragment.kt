@@ -146,39 +146,59 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         }
     }
 
-    override fun observeData() = viewModel.homeStateLiveData.observe(viewLifecycleOwner) {
-        when (it) {
-            HomeState.UnInitialized -> getMyLocation()
-            HomeState.Loading -> with(binding) {
-                locationLoading.isVisible = true
-                locationTextView.setText(R.string.loading)
-            }
-            is HomeState.Success -> {
-                binding.locationLoading.isGone = true
-                binding.locationTextView.text = it.mapSearchInfoEntity.fullAddress
-                binding.tabLayout.isVisible = true
-                binding.filterScrollView.isVisible = true
-                binding.viewPager.isVisible = true
-                initViewsPager(it.mapSearchInfoEntity.locationLatLng)
+    override fun onResume() {
+        super.onResume()
+        // 다시 main 으로 돌아올 때마다 장바구니에 담긴 메뉴 확인
+        viewModel.checkMyBasket()
+    }
 
-                // 내 위치와 최근 위치가 다른 경우
-                if (it.isLocationSame.not()) {
-                    Toast.makeText(
-                        requireContext(),
-                        R.string.request_check_location,
-                        Toast.LENGTH_SHORT
-                    ).show()
+    override fun observeData() {
+        viewModel.homeStateLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                HomeState.UnInitialized -> getMyLocation()
+                HomeState.Loading -> with(binding) {
+                    locationLoading.isVisible = true
+                    locationTextView.setText(R.string.loading)
+                }
+                is HomeState.Success -> {
+                    binding.locationLoading.isGone = true
+                    binding.locationTextView.text = it.mapSearchInfoEntity.fullAddress
+                    binding.tabLayout.isVisible = true
+                    binding.filterScrollView.isVisible = true
+                    binding.viewPager.isVisible = true
+                    initViewsPager(it.mapSearchInfoEntity.locationLatLng)
+
+                    // 내 위치와 최근 위치가 다른 경우
+                    if (it.isLocationSame.not()) {
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.request_check_location,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                is HomeState.Error -> with(binding) {
+                    locationLoading.isGone = true
+                    locationTextView.setText(R.string.error_location_dis_found)
+                    Toast.makeText(requireContext(), it.messageId, Toast.LENGTH_SHORT).show()
+
+                    // 다시 현재 위치 요청
+                    locationTextView.setOnClickListener {
+                        getMyLocation()
+                    }
                 }
             }
-            is HomeState.Error -> with(binding) {
-                locationLoading.isGone = true
-                locationTextView.setText(R.string.error_location_dis_found)
-                Toast.makeText(requireContext(), it.messageId, Toast.LENGTH_SHORT).show()
-
-                // 다시 현재 위치 요청
-                locationTextView.setOnClickListener {
-                    getMyLocation()
+        }
+        viewModel.foodMenuBasketLiveData.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                binding.basketButtonContainer.isVisible = true
+                binding.basketCountTextView.text = getString(R.string.basket_count, it.size)
+                binding.basketButton.setOnClickListener {
+                    // TODO 장바구니 화면으로 이동
                 }
+            } else {
+                binding.basketButtonContainer.isGone = true
+                binding.basketButton.setOnClickListener(null)
             }
         }
     }

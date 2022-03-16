@@ -10,6 +10,7 @@ import com.haman.aop_part6_chapter01.screen.base.BaseViewModel
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.detail.menu.RestaurantMenuListViewModel
 import com.haman.aop_part6_chapter01.util.provider.ResourcesProvider
 import com.haman.aop_part6_chapter01.widget.adapter.listener.AdapterListener
+import com.haman.aop_part6_chapter01.widget.adapter.listener.food.FoodMenuListListener
 import com.haman.aop_part6_chapter01.widget.adapter.viewholder.ModelViewHolder
 
 class FoodMenuViewHolder(
@@ -33,6 +34,11 @@ class FoodMenuViewHolder(
     }
 
     override fun bindViews(model: FoodModel, adapterListener: AdapterListener) {
+        if (adapterListener is FoodMenuListListener) {
+            binding.root.setOnClickListener {
+                adapterListener.onClickItem(model)
+            }
+        }
     }
 
 }

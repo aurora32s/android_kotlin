@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.haman.aop_part6_chapter01.R
 import com.haman.aop_part6_chapter01.data.entity.impl.LocationLatLngEntity
 import com.haman.aop_part6_chapter01.data.entity.impl.MapSearchInfoEntity
+import com.haman.aop_part6_chapter01.data.entity.impl.RestaurantFoodEntity
+import com.haman.aop_part6_chapter01.data.repository.food.RestaurantFoodRepository
 import com.haman.aop_part6_chapter01.data.repository.map.MapRepository
 import com.haman.aop_part6_chapter01.data.repository.user.UserRepository
 import com.haman.aop_part6_chapter01.screen.base.BaseViewModel
@@ -13,12 +15,17 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val mapRepository: MapRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val restaurantFoodRepository: RestaurantFoodRepository
 ): BaseViewModel() {
 
     private val _homeStateLiveData = MutableLiveData<HomeState>(HomeState.UnInitialized)
     val homeStateLiveData
         get() = _homeStateLiveData
+
+    private val _foodMenuBasketLiveData = MutableLiveData<List<RestaurantFoodEntity>>()
+    val foodMenuBasketLiveData
+        get() = _foodMenuBasketLiveData
 
     // gps 정보로 poi 데이터 요청
     fun loadReverseGeoInformation(
@@ -52,6 +59,10 @@ class HomeViewModel(
             }
         }
         return null
+    }
+
+    fun checkMyBasket() = viewModelScope.launch {
+        _foodMenuBasketLiveData.value = restaurantFoodRepository.getAllFoodMenuListInBasket()
     }
 
     companion object {

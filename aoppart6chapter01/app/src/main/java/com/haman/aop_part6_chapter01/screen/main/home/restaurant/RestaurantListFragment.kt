@@ -1,7 +1,5 @@
 package com.haman.aop_part6_chapter01.screen.main.home.restaurant
 
-import android.util.Log
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import com.haman.aop_part6_chapter01.data.entity.impl.LocationLatLngEntity
 import com.haman.aop_part6_chapter01.databinding.FragmentRestaurantListBinding
@@ -11,8 +9,7 @@ import com.haman.aop_part6_chapter01.screen.base.BaseFragment
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.detail.RestaurantDetailActivity
 import com.haman.aop_part6_chapter01.util.provider.ResourcesProvider
 import com.haman.aop_part6_chapter01.widget.adapter.ModelRecyclerAdapter
-import com.haman.aop_part6_chapter01.widget.adapter.impl.RestaurantListFragmentPagerAdapter
-import com.haman.aop_part6_chapter01.widget.adapter.listener.RestaurantListListener
+import com.haman.aop_part6_chapter01.widget.adapter.listener.restaurant.RestaurantListListener
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf

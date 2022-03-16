@@ -1,7 +1,6 @@
 package com.haman.aop_part6_chapter01.widget.adapter.viewholder.impl.restaurant
 
 import com.haman.aop_part6_chapter01.R
-import com.haman.aop_part6_chapter01.databinding.ViewholderEmptyBinding
 import com.haman.aop_part6_chapter01.databinding.ViewholderRestaurantBinding
 import com.haman.aop_part6_chapter01.extension.clear
 import com.haman.aop_part6_chapter01.extension.load
@@ -9,7 +8,7 @@ import com.haman.aop_part6_chapter01.model.restaurant.RestaurantModel
 import com.haman.aop_part6_chapter01.screen.base.BaseViewModel
 import com.haman.aop_part6_chapter01.util.provider.ResourcesProvider
 import com.haman.aop_part6_chapter01.widget.adapter.listener.AdapterListener
-import com.haman.aop_part6_chapter01.widget.adapter.listener.RestaurantListListener
+import com.haman.aop_part6_chapter01.widget.adapter.listener.restaurant.RestaurantListListener
 import com.haman.aop_part6_chapter01.widget.adapter.viewholder.ModelViewHolder
 
 class RestaurantViewHolder(
