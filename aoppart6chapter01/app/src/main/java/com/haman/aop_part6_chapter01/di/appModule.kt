@@ -11,6 +11,8 @@ import com.haman.aop_part6_chapter01.data.repository.food.DefaultRestaurantFoodR
 import com.haman.aop_part6_chapter01.data.repository.food.RestaurantFoodRepository
 import com.haman.aop_part6_chapter01.data.repository.map.DefaultMapRepository
 import com.haman.aop_part6_chapter01.data.repository.map.MapRepository
+import com.haman.aop_part6_chapter01.data.repository.review.DefaultRestaurantReviewRepository
+import com.haman.aop_part6_chapter01.data.repository.review.RestaurantReviewRepository
 import com.haman.aop_part6_chapter01.data.repository.user.DefaultUserRepository
 import com.haman.aop_part6_chapter01.data.repository.user.UserRepository
 import com.haman.aop_part6_chapter01.screen.main.home.HomeViewModel
@@ -42,6 +44,7 @@ val appModule = module {
     single<MapRepository> { DefaultMapRepository(get(),get()) }
     single<UserRepository> { DefaultUserRepository(get(), get(),get()) }
     single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get(), get()) }
+    single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get()) }
 
     // api
     single { provideGsonConvertFactory() }
@@ -68,5 +71,5 @@ val appModule = module {
     viewModel { (restaurantId: Long, foodList: List<RestaurantFoodEntity>) ->
         RestaurantMenuListViewModel(restaurantId, foodList, get())
     }
-    viewModel { RestaurantReviewListViewModel() }
+    viewModel { (restaurantTitle: String) -> RestaurantReviewListViewModel(restaurantTitle, get()) }
 }
