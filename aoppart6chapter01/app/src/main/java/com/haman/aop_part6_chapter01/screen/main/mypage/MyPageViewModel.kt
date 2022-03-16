@@ -5,7 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.haman.aop_part6_chapter01.R
+import com.haman.aop_part6_chapter01.data.entity.impl.OrderEntity
 import com.haman.aop_part6_chapter01.data.preference.AppPreferenceManager
+import com.haman.aop_part6_chapter01.data.repository.order.DefaultOrderRepository
+import com.haman.aop_part6_chapter01.data.repository.order.OrderRepository
+import com.haman.aop_part6_chapter01.data.repository.user.UserRepository
 import com.haman.aop_part6_chapter01.screen.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -14,7 +18,9 @@ import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class MyPageViewModel(
-    private val preferenceManager: AppPreferenceManager
+    private val preferenceManager: AppPreferenceManager,
+    private val userRepository: UserRepository,
+    private val orderRepository: OrderRepository
 ) : BaseViewModel() {
 
     private val _myStateLiveData = MutableLiveData<MyPageState>(MyPageState.UnInitialized)
@@ -30,10 +36,17 @@ class MyPageViewModel(
 
     fun setUserInfo(firebaseUser: FirebaseUser?) = viewModelScope.launch {
         firebaseUser?.let { user ->
-            _myStateLiveData.value = MyPageState.Success.Registered(
-                userName = user.displayName ?: "익명",
-                profileImageUri = user.photoUrl
-            )
+            when (val orderMenuResult = orderRepository.getAllOrderMenus(user.uid)) {
+                is DefaultOrderRepository.Result.Error -> TODO()
+                is DefaultOrderRepository.Result.Success<*> -> {
+                    val orderList = orderMenuResult.data as List<OrderEntity>
+                    _myStateLiveData.value = MyPageState.Success.Registered(
+                        userName = user.displayName ?: "익명",
+                        profileImageUri = user.photoUrl,
+                        orderList = orderList
+                    )
+                }
+            }
         } ?: kotlin.run {
             _myStateLiveData.value = MyPageState.Success.NotRegistered
         }
@@ -56,6 +69,7 @@ class MyPageViewModel(
         withContext(Dispatchers.IO) {
             preferenceManager.removeIdToken()
         }
+        userRepository.deleteAllUserLikedRestaurant()
         fetchData()
     }
 }

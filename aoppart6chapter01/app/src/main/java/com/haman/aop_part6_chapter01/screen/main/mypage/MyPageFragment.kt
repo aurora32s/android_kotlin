@@ -18,6 +18,7 @@ import com.haman.aop_part6_chapter01.databinding.FragmentMypageBinding
 import com.haman.aop_part6_chapter01.extension.load
 import com.haman.aop_part6_chapter01.screen.base.BaseFragment
 import com.haman.aop_part6_chapter01.screen.main.home.HomeFragment
+import com.haman.aop_part6_chapter01.widget.adapter.ModelRecyclerAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MyPageFragment : BaseFragment<MyPageViewModel, FragmentMypageBinding>() {
@@ -55,6 +56,10 @@ class MyPageFragment : BaseFragment<MyPageViewModel, FragmentMypageBinding>() {
                 }
             }
         }
+
+    private val adapter by lazy {
+        ModelRecyclerAdapter<>
+    }
 
     override fun initViews() = with(binding) {
         super.initViews()

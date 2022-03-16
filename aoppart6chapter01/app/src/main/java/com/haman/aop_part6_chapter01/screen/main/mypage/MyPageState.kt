@@ -2,6 +2,7 @@ package com.haman.aop_part6_chapter01.screen.main.mypage
 
 import android.net.Uri
 import androidx.annotation.StringRes
+import com.haman.aop_part6_chapter01.data.entity.impl.OrderEntity
 
 sealed interface MyPageState{
 
@@ -17,7 +18,8 @@ sealed interface MyPageState{
 
         data class Registered(
             val userName: String,
-            val profileImageUri: Uri?
+            val profileImageUri: Uri?,
+            val orderList: List<OrderEntity>
         ): Success
 
         object NotRegistered: Success
