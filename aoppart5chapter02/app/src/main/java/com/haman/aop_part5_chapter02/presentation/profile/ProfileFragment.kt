@@ -45,6 +45,7 @@ internal class ProfileFragment: BaseFragment<ProfileViewModel, FragmentProfileBi
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
+            Log.d(".ProfileFragment", result.toString())
             if (result.resultCode == Activity.RESULT_OK) {
                 try {
                     val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)

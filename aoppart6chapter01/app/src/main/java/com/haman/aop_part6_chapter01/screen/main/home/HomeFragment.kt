@@ -3,6 +3,7 @@ package com.haman.aop_part6_chapter01.screen.main.home
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.location.Location
 import android.location.LocationListener
@@ -13,15 +14,19 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
 import com.haman.aop_part6_chapter01.R
 import com.haman.aop_part6_chapter01.data.entity.impl.LocationLatLngEntity
 import com.haman.aop_part6_chapter01.data.entity.impl.MapSearchInfoEntity
 import com.haman.aop_part6_chapter01.databinding.FragmentHomeBinding
 import com.haman.aop_part6_chapter01.screen.base.BaseFragment
+import com.haman.aop_part6_chapter01.screen.main.MainActivity
+import com.haman.aop_part6_chapter01.screen.main.MainTabMenu
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.RestaurantCategory
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.RestaurantListFragment
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.RestaurantOrder
 import com.haman.aop_part6_chapter01.screen.mylocation.MyLocationActivity
+import com.haman.aop_part6_chapter01.screen.order.OrderMenuListActivity
 import com.haman.aop_part6_chapter01.widget.adapter.impl.RestaurantListFragmentPagerAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -35,6 +40,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
     private lateinit var locationManager: LocationManager
     private lateinit var locationListener: MyLocationListener
+
+    private val firebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     // activityForResult 대신에 사용
     private val locationPermissionLauncher =
@@ -194,13 +201,39 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                 binding.basketButtonContainer.isVisible = true
                 binding.basketCountTextView.text = getString(R.string.basket_count, it.size)
                 binding.basketButton.setOnClickListener {
-                    // TODO 장바구니 화면으로 이동
+                    // 장바구니 화면으로 이동
+                    if (firebaseAuth.currentUser == null) {
+                        // 로그인 필요
+                        alertLoginNeed {
+                            (requireActivity() as MainActivity).goToTab(MainTabMenu.MY)
+                        }
+                    } else {
+                        // 로그인 중
+                        startActivity(
+                            OrderMenuListActivity.newInstance(requireContext())
+                        )
+                    }
                 }
             } else {
                 binding.basketButtonContainer.isGone = true
                 binding.basketButton.setOnClickListener(null)
             }
         }
+    }
+
+    private fun alertLoginNeed(action: () -> Unit) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("로그인이 필요합니다.")
+            .setMessage("주문하려면 로그인이 필요합니다. 마이탭으로 이동하시겠습니까?")
+            .setPositiveButton("이동"){dialog, _ ->
+                action()
+                dialog.dismiss()
+            }
+            .setNegativeButton("취소"){dialog,_ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
     // location permission check
@@ -264,7 +297,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         // 위치 변경 시 호출
         override fun onLocationChanged(location: Location) {
 //            binding.locationTextView.text = "${location.latitude} / ${location.longitude}"
-            // TODO viewModel 에서 poi 정보 요청
+            // viewModel 에서 poi 정보 요청
             viewModel.loadReverseGeoInformation(
                 LocationLatLngEntity(
                     location.latitude,

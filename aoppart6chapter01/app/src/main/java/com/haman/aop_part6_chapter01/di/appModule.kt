@@ -5,6 +5,7 @@ import com.haman.aop_part6_chapter01.data.entity.impl.MapSearchInfoEntity
 import com.haman.aop_part6_chapter01.data.entity.impl.RestaurantEntity
 import com.haman.aop_part6_chapter01.data.entity.impl.RestaurantFoodEntity
 import com.haman.aop_part6_chapter01.data.network.MapApiService
+import com.haman.aop_part6_chapter01.data.preference.AppPreferenceManager
 import com.haman.aop_part6_chapter01.data.repository.restaurant.DefaultRestaurantRepository
 import com.haman.aop_part6_chapter01.data.repository.RestaurantRepository
 import com.haman.aop_part6_chapter01.data.repository.food.DefaultRestaurantFoodRepository
@@ -21,8 +22,11 @@ import com.haman.aop_part6_chapter01.screen.main.home.restaurant.RestaurantListV
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.detail.RestaurantDetailViewModel
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.detail.menu.RestaurantMenuListViewModel
 import com.haman.aop_part6_chapter01.screen.main.home.restaurant.detail.review.RestaurantReviewListViewModel
+import com.haman.aop_part6_chapter01.screen.main.like.RestaurantLikedListViewModel
 import com.haman.aop_part6_chapter01.screen.main.mypage.MyPageViewModel
 import com.haman.aop_part6_chapter01.screen.mylocation.MyLocationViewModel
+import com.haman.aop_part6_chapter01.screen.order.OrderMenuListViewModel
+import com.haman.aop_part6_chapter01.util.event.MenuChangeEventBus
 import com.haman.aop_part6_chapter01.util.provider.ResourcesProvider
 import com.haman.aop_part6_chapter01.util.provider.impl.DefaultResourceProvider
 import kotlinx.coroutines.Dispatchers
@@ -46,6 +50,9 @@ val appModule = module {
     single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get(), get()) }
     single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get()) }
 
+    // preference
+    single { AppPreferenceManager(androidContext()) }
+
     // api
     single { provideGsonConvertFactory() }
     single { buildOkHttpClient() }
@@ -62,7 +69,7 @@ val appModule = module {
 
     // viewModel
     viewModel { HomeViewModel(get(), get(), get()) }
-    viewModel { MyPageViewModel() }
+    viewModel { MyPageViewModel(get()) }
     viewModel { (restaurantCategory: RestaurantCategory, locationLatLng: LocationLatLngEntity) ->
         RestaurantListViewModel(restaurantCategory, locationLatLng, get())
     }
@@ -72,4 +79,9 @@ val appModule = module {
         RestaurantMenuListViewModel(restaurantId, foodList, get())
     }
     viewModel { (restaurantTitle: String) -> RestaurantReviewListViewModel(restaurantTitle, get()) }
+    viewModel { RestaurantLikedListViewModel(get()) }
+    viewModel { OrderMenuListViewModel(get()) }
+
+    // event bus
+    single { MenuChangeEventBus() }
 }
