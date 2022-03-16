@@ -5,6 +5,7 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import com.google.android.material.snackbar.Snackbar
 import com.haman.aop_part6_chapter01.databinding.ActivityOrderListBinding
 import com.haman.aop_part6_chapter01.model.food.FoodModel
 import com.haman.aop_part6_chapter01.screen.base.BaseActivity
@@ -57,7 +58,7 @@ class OrderMenuListActivity :
     }
 
     private fun handleErrorState(state: OrderMenuState.Error) {
-
+        Toast.makeText(this, getString(state.messageId), Toast.LENGTH_SHORT).show()
     }
 
     private fun handleLoadingState() {
@@ -82,7 +83,9 @@ class OrderMenuListActivity :
     }
 
     private fun handleOrderState() {
-
+        // 주문이 완료된 경우
+        Toast.makeText(this, "성공적으로 주문을 완료하였습니다.", Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     companion object {

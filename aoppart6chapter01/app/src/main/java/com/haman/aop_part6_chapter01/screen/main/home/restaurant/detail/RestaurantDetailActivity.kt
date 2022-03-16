@@ -54,6 +54,12 @@ class RestaurantDetailActivity :
         initAppBar()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // 다시 main 으로 돌아올 때마다 장바구니에 담긴 메뉴 확인
+        viewModel.fetchData()
+    }
+
     private lateinit var viewPagerAdapter: RestaurantDetailListFragmentPagerAdapter
 
     private fun initAppBar() = with(binding) {

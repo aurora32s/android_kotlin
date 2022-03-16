@@ -1,5 +1,7 @@
 package com.haman.aop_part6_chapter01.di
 
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.haman.aop_part6_chapter01.data.entity.impl.LocationLatLngEntity
 import com.haman.aop_part6_chapter01.data.entity.impl.MapSearchInfoEntity
 import com.haman.aop_part6_chapter01.data.entity.impl.RestaurantEntity
@@ -12,6 +14,8 @@ import com.haman.aop_part6_chapter01.data.repository.food.DefaultRestaurantFoodR
 import com.haman.aop_part6_chapter01.data.repository.food.RestaurantFoodRepository
 import com.haman.aop_part6_chapter01.data.repository.map.DefaultMapRepository
 import com.haman.aop_part6_chapter01.data.repository.map.MapRepository
+import com.haman.aop_part6_chapter01.data.repository.order.DefaultOrderRepository
+import com.haman.aop_part6_chapter01.data.repository.order.OrderRepository
 import com.haman.aop_part6_chapter01.data.repository.review.DefaultRestaurantReviewRepository
 import com.haman.aop_part6_chapter01.data.repository.review.RestaurantReviewRepository
 import com.haman.aop_part6_chapter01.data.repository.user.DefaultUserRepository
@@ -39,6 +43,9 @@ import retrofit2.Retrofit
 val appModule = module {
     single<ResourcesProvider> { DefaultResourceProvider(androidContext()) }
 
+    // FireStore
+    single { Firebase.firestore }
+
     // dispatcher
     single { Dispatchers.IO }
     single { Dispatchers.Main }
@@ -49,6 +56,7 @@ val appModule = module {
     single<UserRepository> { DefaultUserRepository(get(), get(),get()) }
     single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get(), get()) }
     single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get()) }
+    single<OrderRepository> { DefaultOrderRepository(get(), get()) }
 
     // preference
     single { AppPreferenceManager(androidContext()) }
@@ -80,7 +88,7 @@ val appModule = module {
     }
     viewModel { (restaurantTitle: String) -> RestaurantReviewListViewModel(restaurantTitle, get()) }
     viewModel { RestaurantLikedListViewModel(get()) }
-    viewModel { OrderMenuListViewModel(get()) }
+    viewModel { OrderMenuListViewModel(get(), get()) }
 
     // event bus
     single { MenuChangeEventBus() }
