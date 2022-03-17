@@ -20,7 +20,7 @@ import org.mockito.Mock
 import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 
-open internal class ViewModelTest: KoinTest {
+open class ViewModelTest: KoinTest {
     @get:Rule
     val mockitoRule: MockitoRule = MockitoJUnit.rule()
     @get:Rule
