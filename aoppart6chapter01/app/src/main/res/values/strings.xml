@@ -54,4 +54,20 @@
     <!-- my -->
     <string name="error_to_order_history">주문내역을 가져오는 도중 문제가 발생하였습니다.</string>
     <string name="order_history_title">주문 내역 : %s</string>
+
+    <!-- review -->
+    <string name="add_restaurant_review">%s 리뷰 등록</string>
+    <string name="title">제목</string>
+    <string name="content">내용</string>
+    <string name="add_review">등록하기</string>
+    <string name="add_image">이미지 등록하기</string>
+
+    <string name="error_to_upload_image">이미지를 저장하는 중 문제가 발생하였습니다.</string>
+    <string name="confirm_text">확인</string>
+
+    <!-- 카메라 -->
+    <string name="capture_text">촬영</string>
+    <string name="image_preview">이미지 미리보기</string>
+    <string name="flash_text">Flash</string>
+
 </resources>

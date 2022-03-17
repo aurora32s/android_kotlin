@@ -6,6 +6,7 @@ import com.haman.aop_part6_chapter01.model.order.OrderModel
 import com.haman.aop_part6_chapter01.screen.base.BaseViewModel
 import com.haman.aop_part6_chapter01.util.provider.ResourcesProvider
 import com.haman.aop_part6_chapter01.widget.adapter.listener.AdapterListener
+import com.haman.aop_part6_chapter01.widget.adapter.listener.order.OrderListListener
 import com.haman.aop_part6_chapter01.widget.adapter.viewholder.ModelViewHolder
 
 class OrderViewHolder(
@@ -39,5 +40,11 @@ class OrderViewHolder(
         }
     }
 
-    override fun bindViews(model: OrderModel, adapterListener: AdapterListener) {}
+    override fun bindViews(model: OrderModel, adapterListener: AdapterListener) {
+        if (adapterListener is OrderListListener) {
+            binding.root.setOnClickListener {
+                adapterListener.onClickItem(model)
+            }
+        }
+    }
 }

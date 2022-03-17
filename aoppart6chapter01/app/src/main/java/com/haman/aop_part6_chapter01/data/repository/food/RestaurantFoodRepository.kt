@@ -5,7 +5,7 @@ import com.haman.aop_part6_chapter01.data.entity.impl.RestaurantFoodEntity
 interface RestaurantFoodRepository {
 
     // 특정 식당의 메뉴 리스트
-    suspend fun getFoods(restaurantId: Long): List<RestaurantFoodEntity>
+    suspend fun getFoods(restaurantId: Long, restaurantTitle: String): List<RestaurantFoodEntity>
     // 장바구니에 있는 모든 메뉴 요청
     suspend fun getAllFoodMenuListInBasket(): List<RestaurantFoodEntity>
     // 장바구니에 있는 특정 식당의 메뉴 요청

@@ -1,12 +1,13 @@
 package com.haman.aop_part6_chapter01.di
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.haman.aop_part6_chapter01.data.entity.impl.LocationLatLngEntity
 import com.haman.aop_part6_chapter01.data.entity.impl.MapSearchInfoEntity
 import com.haman.aop_part6_chapter01.data.entity.impl.RestaurantEntity
 import com.haman.aop_part6_chapter01.data.entity.impl.RestaurantFoodEntity
-import com.haman.aop_part6_chapter01.data.network.MapApiService
 import com.haman.aop_part6_chapter01.data.preference.AppPreferenceManager
 import com.haman.aop_part6_chapter01.data.repository.restaurant.DefaultRestaurantRepository
 import com.haman.aop_part6_chapter01.data.repository.RestaurantRepository
@@ -16,6 +17,8 @@ import com.haman.aop_part6_chapter01.data.repository.map.DefaultMapRepository
 import com.haman.aop_part6_chapter01.data.repository.map.MapRepository
 import com.haman.aop_part6_chapter01.data.repository.order.DefaultOrderRepository
 import com.haman.aop_part6_chapter01.data.repository.order.OrderRepository
+import com.haman.aop_part6_chapter01.data.repository.photo.DefaultGalleryRepository
+import com.haman.aop_part6_chapter01.data.repository.photo.GalleryRepository
 import com.haman.aop_part6_chapter01.data.repository.review.DefaultRestaurantReviewRepository
 import com.haman.aop_part6_chapter01.data.repository.review.RestaurantReviewRepository
 import com.haman.aop_part6_chapter01.data.repository.user.DefaultUserRepository
@@ -30,6 +33,8 @@ import com.haman.aop_part6_chapter01.screen.main.like.RestaurantLikedListViewMod
 import com.haman.aop_part6_chapter01.screen.main.mypage.MyPageViewModel
 import com.haman.aop_part6_chapter01.screen.mylocation.MyLocationViewModel
 import com.haman.aop_part6_chapter01.screen.order.OrderMenuListViewModel
+import com.haman.aop_part6_chapter01.screen.review.AddReviewViewModel
+import com.haman.aop_part6_chapter01.screen.review.gallery.GalleryViewModel
 import com.haman.aop_part6_chapter01.util.event.MenuChangeEventBus
 import com.haman.aop_part6_chapter01.util.provider.ResourcesProvider
 import com.haman.aop_part6_chapter01.util.provider.impl.DefaultResourceProvider
@@ -38,13 +43,14 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import retrofit2.Retrofit
 
 val appModule = module {
     single<ResourcesProvider> { DefaultResourceProvider(androidContext()) }
 
-    // FireStore
+    // Firebase
     single { Firebase.firestore }
+    single { FirebaseStorage.getInstance() }
+    single { FirebaseAuth.getInstance() }
 
     // dispatcher
     single { Dispatchers.IO }
@@ -55,8 +61,9 @@ val appModule = module {
     single<MapRepository> { DefaultMapRepository(get(),get()) }
     single<UserRepository> { DefaultUserRepository(get(), get(),get()) }
     single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get(), get()) }
-    single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get()) }
+    single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get(), get(), get()) }
     single<OrderRepository> { DefaultOrderRepository(get(), get()) }
+    single<GalleryRepository> { DefaultGalleryRepository(androidContext(), get()) }
 
     // preference
     single { AppPreferenceManager(androidContext()) }
@@ -89,6 +96,8 @@ val appModule = module {
     viewModel { (restaurantTitle: String) -> RestaurantReviewListViewModel(restaurantTitle, get()) }
     viewModel { RestaurantLikedListViewModel(get()) }
     viewModel { OrderMenuListViewModel(get(), get()) }
+    viewModel { AddReviewViewModel(get()) }
+    viewModel { GalleryViewModel(get()) }
 
     // event bus
     single { MenuChangeEventBus() }

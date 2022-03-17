@@ -19,9 +19,11 @@ import com.haman.aop_part6_chapter01.extension.load
 import com.haman.aop_part6_chapter01.model.order.OrderModel
 import com.haman.aop_part6_chapter01.screen.base.BaseFragment
 import com.haman.aop_part6_chapter01.screen.main.home.HomeFragment
+import com.haman.aop_part6_chapter01.screen.review.AddReviewActivity
 import com.haman.aop_part6_chapter01.util.provider.ResourcesProvider
 import com.haman.aop_part6_chapter01.widget.adapter.ModelRecyclerAdapter
 import com.haman.aop_part6_chapter01.widget.adapter.listener.AdapterListener
+import com.haman.aop_part6_chapter01.widget.adapter.listener.order.OrderListListener
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -67,8 +69,16 @@ class MyPageFragment : BaseFragment<MyPageViewModel, FragmentMypageBinding>() {
             listOf(),
             viewModel,
             resourceProvider,
-            adapterListener = object : AdapterListener{
-
+            adapterListener = object : OrderListListener{
+                override fun onClickItem(orderModel: OrderModel) {
+                    startActivity(
+                        AddReviewActivity.newInstance(
+                            requireContext(),
+                            restaurantTitle = orderModel.restaurantTitle,
+                            orderId = orderModel.orderId
+                        )
+                    )
+                }
             }
         )
     }

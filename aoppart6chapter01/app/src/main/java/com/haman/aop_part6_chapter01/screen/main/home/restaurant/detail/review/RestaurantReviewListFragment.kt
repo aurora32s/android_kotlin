@@ -2,6 +2,7 @@ package com.haman.aop_part6_chapter01.screen.main.home.restaurant.detail.review
 
 import android.content.Context
 import android.icu.text.CaseMap
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import com.haman.aop_part6_chapter01.data.entity.impl.RestaurantFoodEntity
 import com.haman.aop_part6_chapter01.databinding.FragmentListBinding
@@ -56,11 +57,18 @@ class RestaurantReviewListFragment :
             is RestaurantReviewState.Success -> {
                 handleSuccess(it)
             }
+            is RestaurantReviewState.Error -> {
+                handleError(it)
+            }
         }
     }
 
     private fun handleSuccess(state: RestaurantReviewState.Success) {
         adapter.submitList(state.reviewList)
+    }
+
+    private fun handleError(state: RestaurantReviewState.Error) {
+        Toast.makeText(requireContext(), "리뷰 정보를 가져오는 도중 문제가 발생하였습니다.", Toast.LENGTH_SHORT).show()
     }
 
     companion object {

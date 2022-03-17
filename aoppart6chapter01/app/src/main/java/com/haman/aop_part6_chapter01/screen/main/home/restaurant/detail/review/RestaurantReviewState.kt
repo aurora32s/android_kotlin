@@ -13,4 +13,8 @@ sealed interface RestaurantReviewState{
         val reviewList: List<ReviewModel>
     ): RestaurantReviewState
 
+    data class Error(
+        val exception: Throwable
+    ): RestaurantReviewState
+
 }

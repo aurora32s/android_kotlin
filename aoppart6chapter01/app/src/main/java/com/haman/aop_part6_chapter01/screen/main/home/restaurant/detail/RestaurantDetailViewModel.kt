@@ -22,7 +22,10 @@ class RestaurantDetailViewModel(
 
     override fun fetchData(): Job = viewModelScope.launch{
         _restaurantDetailStateLiveData.value = RestaurantDetailState.Loading
-        val foods = restaurantFoodRepository.getFoods(restaurantId = restaurantEntity.restaurantInfoId)
+        val foods = restaurantFoodRepository.getFoods(
+            restaurantId = restaurantEntity.restaurantInfoId,
+            restaurantTitle = restaurantEntity.restaurantTitle
+        )
         val foodMenuListInBasket = restaurantFoodRepository.getAllFoodMenuListInBasket()
         val isLiked = userRepository.getUserLikedRestaurant(restaurantEntity.restaurantTitle)
         _restaurantDetailStateLiveData.value = RestaurantDetailState.Success(

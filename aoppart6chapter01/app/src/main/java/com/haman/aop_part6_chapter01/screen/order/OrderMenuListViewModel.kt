@@ -37,7 +37,8 @@ class OrderMenuListViewModel(
                     price = it.price,
                     imageUrl = it.imageUrl,
                     restaurantId = it.restaurantId,
-                    foodId = it.id
+                    foodId = it.id,
+                    restaurantTitle = it.restaurantTitle
                 )
             }
         )
@@ -45,10 +46,16 @@ class OrderMenuListViewModel(
 
     fun orderMenu() = viewModelScope.launch {
         val foodMenuList = restaurantFoodRepository.getAllFoodMenuListInBasket()
+        val restaurantTitle = foodMenuList.first().restaurantTitle
         if (foodMenuList.isNotEmpty()) {
             val restaurantId = foodMenuList.first().restaurantId
             firebaseAuth.currentUser?.let { user ->
-                val result = orderRepository.orderMenu(user.uid, restaurantId, foodMenuList)
+                val result = orderRepository.orderMenu(
+                    user.uid,
+                    restaurantId,
+                    foodMenuList,
+                    restaurantTitle
+                )
                 when (result) {
                     is DefaultOrderRepository.Result.Error -> {
                         _orderStateLiveData.value =
